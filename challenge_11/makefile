@@ -1,11 +1,11 @@
 CC = gcc
 HEADERS = func1.h func2.h
-CFLAGS= Wl,-Map,sum.map main.o func1.o func2.o
+CFLAG+= Wl,-Map,sum.map main.o func1.o func2.o
 
 sum.exe : main.o func1.o func2.o
 	$(CC) -o sum.exe main.o func1.o func2.o
 	objdump -x main.o func1.o func2.o
-	$(CC) $(CFLAGS)
+	$(CC) $(CFLAG)
 main.o : main.c func1.h func2.h
 	$(CC) -c main.c
 func1.o : func1.h func1.c
