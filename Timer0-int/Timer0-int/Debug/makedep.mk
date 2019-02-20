@@ -4,6 +4,8 @@
 
 DIO\Dio.c
 
+Interrupts\Interrupts.c
+
 main.c
 
 Timer\Timer.c

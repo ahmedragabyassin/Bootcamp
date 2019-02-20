@@ -7,7 +7,6 @@
 
 #include "../Includes//Timer.h"
 #include "../Includes/TimerMemMap.h"
-#include <avr/interrupt.h>
 
 /************************************************************************/
 /* Function: Timer Init                                                 */
@@ -36,9 +35,8 @@ void TimerInit(void)
 	SET_BIT(TCCR0,CS00);
 	SET_BIT(TCCR0,CS01);
 	CLEAR_BIT(TCCR0,CS02);
-	SET_BIT(TIMSK,OCIE0);
-	SET_BIT(GICR,INT2);
-	sei();
+	SET_BIT(TIMSK,OCIE0); /* enable interrupt when compare match occur */
+
 	
 }
 

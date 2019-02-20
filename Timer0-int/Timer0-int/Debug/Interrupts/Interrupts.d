@@ -1,4 +1,5 @@
-main.d main.o: .././main.c \
+Interrupts/Interrupts.d Interrupts/Interrupts.o: \
+ ../Interrupts/Interrupts.c ../Interrupts/../Includes/Interrupts.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
@@ -11,11 +12,14 @@ main.d main.o: .././main.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
- .././Includes/Timer.h .././Includes/types.h \
- .././Includes/BitwiseOperations.h .././Includes/CommonNumbers.h \
- .././Includes/Dio.h .././Includes/CommonDefinations.h \
- .././Includes/CommonDelays.h .././Includes/Dio_cfg.h \
- .././Includes/Interrupts.h .././Includes/Dio.h
+ ../Interrupts/../Includes/types.h \
+ ../Interrupts/../Includes/CommonDefinations.h \
+ ../Interrupts/../Includes/CommonDelays.h \
+ ../Interrupts/../Includes/CommonNumbers.h \
+ ../Interrupts/../Includes/Dio.h ../Interrupts/../Includes/Dio_cfg.h \
+ ../Interrupts/../Includes/BitwiseOperations.h
+
+../Interrupts/../Includes/Interrupts.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
 
@@ -41,22 +45,16 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h:
 
-.././Includes/Timer.h:
+../Interrupts/../Includes/types.h:
 
-.././Includes/types.h:
+../Interrupts/../Includes/CommonDefinations.h:
 
-.././Includes/BitwiseOperations.h:
+../Interrupts/../Includes/CommonDelays.h:
 
-.././Includes/CommonNumbers.h:
+../Interrupts/../Includes/CommonNumbers.h:
 
-.././Includes/Dio.h:
+../Interrupts/../Includes/Dio.h:
 
-.././Includes/CommonDefinations.h:
+../Interrupts/../Includes/Dio_cfg.h:
 
-.././Includes/CommonDelays.h:
-
-.././Includes/Dio_cfg.h:
-
-.././Includes/Interrupts.h:
-
-.././Includes/Dio.h:
+../Interrupts/../Includes/BitwiseOperations.h:

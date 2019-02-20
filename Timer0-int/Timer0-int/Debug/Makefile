@@ -35,12 +35,14 @@ LINKER_SCRIPT_DEP:=
 SUBDIRS :=  \
 ../Includes \
 ../DIO \
+../Interrupts \
 ../Timer
 
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../DIO/Dio.c \
+../Interrupts/Interrupts.c \
 ../main.c \
 ../Timer/Timer.c
 
@@ -53,21 +55,25 @@ ASM_SRCS +=
 
 OBJS +=  \
 DIO/Dio.o \
+Interrupts/Interrupts.o \
 main.o \
 Timer/Timer.o
 
 OBJS_AS_ARGS +=  \
 DIO/Dio.o \
+Interrupts/Interrupts.o \
 main.o \
 Timer/Timer.o
 
 C_DEPS +=  \
 DIO/Dio.d \
+Interrupts/Interrupts.d \
 main.d \
 Timer/Timer.d
 
 C_DEPS_AS_ARGS +=  \
 DIO/Dio.d \
+Interrupts/Interrupts.d \
 main.d \
 Timer/Timer.d
 
@@ -86,6 +92,13 @@ LINKER_SCRIPT_DEP+=
 
 # AVR32/GNU C Compiler
 DIO/Dio.o: ../DIO/Dio.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Interrupts/Interrupts.o: ../Interrupts/Interrupts.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.2.209\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
