@@ -23,10 +23,10 @@
 int main(void)
 {
     uint8 state = GO; /* initial state to state machine */
-	DIO_SetPinDirection(PIN13,OUT); /* LED 1 */
-	DIO_SetPinDirection(PIN14,OUT); /* LED 2 */
-	DIO_SetPinDirection(PIN15,OUT); /* LED 3 */
-	DIO_SetPinDirection(PIN10,IN);  /* button one*/
+	DIO_SetPinDirection(LED1,OUT); /* LED 1 */
+	DIO_SetPinDirection(LED2,OUT); /* LED 2 */
+	DIO_SetPinDirection(LED3,OUT); /* LED 3 */
+	DIO_SetPinDirection(BUTTON1,IN);  /* button one*/
 	
 	TimerInit();
 	Interrupts_init();
@@ -35,9 +35,9 @@ int main(void)
 			switch(state)
 				{
 					case READY:
-						DIO_WritePin(PIN14,HIGH);
-						DIO_WritePin(PIN13,LOW);
-						DIO_WritePin(PIN15,LOW);
+						DIO_WritePin(LED2,HIGH);
+						DIO_WritePin(LED1,LOW);
+						DIO_WritePin(LED3,LOW);
 						if (int2 > NUM_0)
 						{
 							state = STOP;
@@ -51,9 +51,9 @@ int main(void)
 						}
 						break;
 					case GO:
-						DIO_WritePin(PIN13,HIGH);
-						DIO_WritePin(PIN14,LOW);
-						DIO_WritePin(PIN15,LOW);
+						DIO_WritePin(LED1,HIGH);
+						DIO_WritePin(LED2,LOW);
+						DIO_WritePin(LED3,LOW);
 						if (int2 >NUM_0)
 						{
 							state = STOP;
@@ -67,9 +67,9 @@ int main(void)
 						}
 						break;
 					case STOP:
-						DIO_WritePin(PIN15,HIGH);
-						DIO_WritePin(PIN13,LOW);
-						DIO_WritePin(PIN14,LOW);
+						DIO_WritePin(LED3,HIGH);
+						DIO_WritePin(LED1,LOW);
+						DIO_WritePin(LED2,LOW);
 						if (int2 > NUM_0)
 						{
 							state = STOP;

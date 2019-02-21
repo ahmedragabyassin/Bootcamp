@@ -21,6 +21,16 @@
 #define SHIFT_SEVEN					7
 
 
+/************************************************************************/
+/* Definitions for used LEDs                                                                      */
+/************************************************************************/
+#define LED1			PIN13
+#define LED2			PIN14
+#define LED3			PIN15
+#define BUTTON1			PIN10
+
+
+
 
 
 #endif /* COMMONDEFINATIONS_H_ */

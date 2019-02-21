@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00000128  00000000  00000000  00001db4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000407  00000000  00000000  00001edc  2**0
+ 10 .debug_str    000003eb  00000000  00000000  00001edc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000055e  00000000  00000000  000022e3  2**0
+ 11 .debug_loc    0000055e  00000000  00000000  000022c7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000068  00000000  00000000  00002841  2**0
+ 12 .debug_ranges 00000068  00000000  00000000  00002825  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -83,6 +83,12 @@ Disassembly of section .text:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 0000007c <DIO_WritePin>:
+		else if((PinNum >= NUM_24) && (PinNum < NUM_32)) /*check if Pins in PORTD*/
+		{
+			return GET_BIT(PIND,(PinNum-NUM_24));
+		}
+	return NUM_0;
+}
   7c:	88 30       	cpi	r24, 0x08	; 8
   7e:	e8 f4       	brcc	.+58     	; 0xba <DIO_WritePin+0x3e>
   80:	61 30       	cpi	r22, 0x01	; 1
@@ -218,10 +224,20 @@ Disassembly of section .text:
  184:	08 95       	ret
 
 00000186 <DIO_SetPinDirection>:
+/* Return: return void		                                            */
+/* Description: config the pin to be input or output	                */
+/************************************************************************/
+void DIO_SetPinDirection(uint8 PinNum, uint8 PinValue)
+{
+	if((PinNum >= NUM_0) && (PinNum <NUM_8)) /*check if Pins in PORTA*/
  186:	88 30       	cpi	r24, 0x08	; 8
  188:	e8 f4       	brcc	.+58     	; 0x1c4 <DIO_SetPinDirection+0x3e>
+	{
+		if (PinValue == NUM_1) /* Check Pin Value if OUT to set bit or IN to clear bit */
  18a:	61 30       	cpi	r22, 0x01	; 1
  18c:	69 f4       	brne	.+26     	; 0x1a8 <DIO_SetPinDirection+0x22>
+		{
+			SET_BIT(DDRA,(PinNum));
  18e:	4a b3       	in	r20, 0x1a	; 26
  190:	21 e0       	ldi	r18, 0x01	; 1
  192:	30 e0       	ldi	r19, 0x00	; 0
@@ -235,6 +251,10 @@ Disassembly of section .text:
  1a2:	84 2b       	or	r24, r20
  1a4:	8a bb       	out	0x1a, r24	; 26
  1a6:	08 95       	ret
+		}
+		else
+		{
+			CLEAR_BIT(DDRA,(PinNum));
  1a8:	4a b3       	in	r20, 0x1a	; 26
  1aa:	21 e0       	ldi	r18, 0x01	; 1
  1ac:	30 e0       	ldi	r19, 0x00	; 0
@@ -249,12 +269,19 @@ Disassembly of section .text:
  1be:	84 23       	and	r24, r20
  1c0:	8a bb       	out	0x1a, r24	; 26
  1c2:	08 95       	ret
+		}
+	}
+	else if ((PinNum >= NUM_8) && (PinNum < NUM_16)) /*check if Pins in PORTB*/
  1c4:	98 ef       	ldi	r25, 0xF8	; 248
  1c6:	98 0f       	add	r25, r24
  1c8:	98 30       	cpi	r25, 0x08	; 8
  1ca:	f0 f4       	brcc	.+60     	; 0x208 <DIO_SetPinDirection+0x82>
+	{
+		if (PinValue == NUM_1)
  1cc:	61 30       	cpi	r22, 0x01	; 1
  1ce:	69 f4       	brne	.+26     	; 0x1ea <DIO_SetPinDirection+0x64>
+		{
+			SET_BIT(DDRB,(PinNum - NUM_8));
  1d0:	47 b3       	in	r20, 0x17	; 23
  1d2:	21 e0       	ldi	r18, 0x01	; 1
  1d4:	30 e0       	ldi	r19, 0x00	; 0
@@ -268,6 +295,10 @@ Disassembly of section .text:
  1e4:	84 2b       	or	r24, r20
  1e6:	87 bb       	out	0x17, r24	; 23
  1e8:	08 95       	ret
+		}
+		else
+		{
+			CLEAR_BIT(DDRB,(PinNum - NUM_8));
  1ea:	47 b3       	in	r20, 0x17	; 23
  1ec:	88 50       	subi	r24, 0x08	; 8
  1ee:	21 e0       	ldi	r18, 0x01	; 1
@@ -283,12 +314,19 @@ Disassembly of section .text:
  202:	84 23       	and	r24, r20
  204:	87 bb       	out	0x17, r24	; 23
  206:	08 95       	ret
+		}
+	}
+	else if ((PinNum >= NUM_16) && (PinNum < NUM_24)) /*check if Pins in PORTC*/
  208:	90 ef       	ldi	r25, 0xF0	; 240
  20a:	98 0f       	add	r25, r24
  20c:	98 30       	cpi	r25, 0x08	; 8
  20e:	f0 f4       	brcc	.+60     	; 0x24c <DIO_SetPinDirection+0xc6>
+	{
+		if (PinValue == NUM_1)
  210:	61 30       	cpi	r22, 0x01	; 1
  212:	69 f4       	brne	.+26     	; 0x22e <DIO_SetPinDirection+0xa8>
+		{
+			SET_BIT(DDRC,(PinNum - NUM_16));
  214:	44 b3       	in	r20, 0x14	; 20
  216:	21 e0       	ldi	r18, 0x01	; 1
  218:	30 e0       	ldi	r19, 0x00	; 0
@@ -302,6 +340,10 @@ Disassembly of section .text:
  228:	84 2b       	or	r24, r20
  22a:	84 bb       	out	0x14, r24	; 20
  22c:	08 95       	ret
+		}
+		else
+		{
+			CLEAR_BIT(DDRC,(PinNum - NUM_16));
  22e:	44 b3       	in	r20, 0x14	; 20
  230:	80 51       	subi	r24, 0x10	; 16
  232:	21 e0       	ldi	r18, 0x01	; 1
@@ -317,12 +359,19 @@ Disassembly of section .text:
  246:	84 23       	and	r24, r20
  248:	84 bb       	out	0x14, r24	; 20
  24a:	08 95       	ret
+		}
+	}
+	else if ((PinNum >= NUM_24) && (PinNum < NUM_32)) /*check if Pins in PORTD*/
  24c:	98 ee       	ldi	r25, 0xE8	; 232
  24e:	98 0f       	add	r25, r24
  250:	98 30       	cpi	r25, 0x08	; 8
  252:	e8 f4       	brcc	.+58     	; 0x28e <DIO_SetPinDirection+0x108>
+	{
+		if (PinValue == NUM_1)
  254:	61 30       	cpi	r22, 0x01	; 1
  256:	69 f4       	brne	.+26     	; 0x272 <DIO_SetPinDirection+0xec>
+		{
+			SET_BIT(DDRD,(PinNum - NUM_24));
  258:	41 b3       	in	r20, 0x11	; 17
  25a:	21 e0       	ldi	r18, 0x01	; 1
  25c:	30 e0       	ldi	r19, 0x00	; 0
@@ -336,6 +385,10 @@ Disassembly of section .text:
  26c:	84 2b       	or	r24, r20
  26e:	81 bb       	out	0x11, r24	; 17
  270:	08 95       	ret
+		}
+		else
+		{
+			CLEAR_BIT(DDRD,(PinNum - NUM_24));
  272:	41 b3       	in	r20, 0x11	; 17
  274:	88 51       	subi	r24, 0x18	; 24
  276:	21 e0       	ldi	r18, 0x01	; 1
@@ -453,19 +506,19 @@ ISR(TIMER0_COMP_vect)
 int main(void)
 {
     uint8 state = GO; /* initial state to state machine */
-	DIO_SetPinDirection(PIN13,OUT); /* LED 1 */
+	DIO_SetPinDirection(LED1,OUT); /* LED 1 */
  33a:	61 e0       	ldi	r22, 0x01	; 1
  33c:	8d e0       	ldi	r24, 0x0D	; 13
  33e:	0e 94 c3 00 	call	0x186	; 0x186 <DIO_SetPinDirection>
-	DIO_SetPinDirection(PIN14,OUT); /* LED 2 */
+	DIO_SetPinDirection(LED2,OUT); /* LED 2 */
  342:	61 e0       	ldi	r22, 0x01	; 1
  344:	8e e0       	ldi	r24, 0x0E	; 14
  346:	0e 94 c3 00 	call	0x186	; 0x186 <DIO_SetPinDirection>
-	DIO_SetPinDirection(PIN15,OUT); /* LED 3 */
+	DIO_SetPinDirection(LED3,OUT); /* LED 3 */
  34a:	61 e0       	ldi	r22, 0x01	; 1
  34c:	8f e0       	ldi	r24, 0x0F	; 15
  34e:	0e 94 c3 00 	call	0x186	; 0x186 <DIO_SetPinDirection>
-	DIO_SetPinDirection(PIN10,IN);  /* button one*/
+	DIO_SetPinDirection(BUTTON1,IN);  /* button one*/
  352:	60 e0       	ldi	r22, 0x00	; 0
  354:	8a e0       	ldi	r24, 0x0A	; 10
  356:	0e 94 c3 00 	call	0x186	; 0x186 <DIO_SetPinDirection>
@@ -504,15 +557,15 @@ int main(void)
  374:	f8 cf       	rjmp	.-16     	; 0x366 <main+0x2c>
 				{
 					case READY:
-						DIO_WritePin(PIN14,HIGH);
+						DIO_WritePin(LED2,HIGH);
  376:	61 e0       	ldi	r22, 0x01	; 1
  378:	8e e0       	ldi	r24, 0x0E	; 14
  37a:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
-						DIO_WritePin(PIN13,LOW);
+						DIO_WritePin(LED1,LOW);
  37e:	60 e0       	ldi	r22, 0x00	; 0
  380:	8d e0       	ldi	r24, 0x0D	; 13
  382:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
-						DIO_WritePin(PIN15,LOW);
+						DIO_WritePin(LED3,LOW);
  386:	60 e0       	ldi	r22, 0x00	; 0
  388:	8f e0       	ldi	r24, 0x0F	; 15
  38a:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
@@ -533,9 +586,9 @@ int main(void)
  3b2:	10 92 68 00 	sts	0x0068, r1	; 0x800068 <Gtick+0x7>
 							int2  = NUM_0;
  3b6:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
-						DIO_WritePin(PIN14,HIGH);
-						DIO_WritePin(PIN13,LOW);
-						DIO_WritePin(PIN15,LOW);
+						DIO_WritePin(LED2,HIGH);
+						DIO_WritePin(LED1,LOW);
+						DIO_WritePin(LED3,LOW);
 						if (int2 > NUM_0)
 						{
 							state = STOP;
@@ -586,15 +639,15 @@ int main(void)
 						}
 						break;
 					case GO:
-						DIO_WritePin(PIN13,HIGH);
+						DIO_WritePin(LED1,HIGH);
  416:	61 e0       	ldi	r22, 0x01	; 1
  418:	8d e0       	ldi	r24, 0x0D	; 13
  41a:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
-						DIO_WritePin(PIN14,LOW);
+						DIO_WritePin(LED2,LOW);
  41e:	60 e0       	ldi	r22, 0x00	; 0
  420:	8e e0       	ldi	r24, 0x0E	; 14
  422:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
-						DIO_WritePin(PIN15,LOW);
+						DIO_WritePin(LED3,LOW);
  426:	60 e0       	ldi	r22, 0x00	; 0
  428:	8f e0       	ldi	r24, 0x0F	; 15
  42a:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
@@ -615,9 +668,9 @@ int main(void)
  452:	10 92 68 00 	sts	0x0068, r1	; 0x800068 <Gtick+0x7>
 							int2  = NUM_0;
  456:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <_edata>
-						DIO_WritePin(PIN13,HIGH);
-						DIO_WritePin(PIN14,LOW);
-						DIO_WritePin(PIN15,LOW);
+						DIO_WritePin(LED1,HIGH);
+						DIO_WritePin(LED2,LOW);
+						DIO_WritePin(LED3,LOW);
 						if (int2 >NUM_0)
 						{
 							state = STOP;
@@ -668,15 +721,15 @@ int main(void)
 						}
 						break;
 					case STOP:
-						DIO_WritePin(PIN15,HIGH);
+						DIO_WritePin(LED3,HIGH);
  4b6:	61 e0       	ldi	r22, 0x01	; 1
  4b8:	8f e0       	ldi	r24, 0x0F	; 15
  4ba:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
-						DIO_WritePin(PIN13,LOW);
+						DIO_WritePin(LED1,LOW);
  4be:	60 e0       	ldi	r22, 0x00	; 0
  4c0:	8d e0       	ldi	r24, 0x0D	; 13
  4c2:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
-						DIO_WritePin(PIN14,LOW);
+						DIO_WritePin(LED2,LOW);
  4c6:	60 e0       	ldi	r22, 0x00	; 0
  4c8:	8e e0       	ldi	r24, 0x0E	; 14
  4ca:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
@@ -739,46 +792,24 @@ int main(void)
  552:	09 cf       	rjmp	.-494    	; 0x366 <main+0x2c>
 
 00000554 <TimerInit>:
-void TimerInit(void)
-{
-	/************************************************************************/
-	/* Config Timer0 in CTC mode                                            */
-	/************************************************************************/
-	SET_BIT(TCCR0,WGM01);
  554:	83 b7       	in	r24, 0x33	; 51
  556:	88 60       	ori	r24, 0x08	; 8
  558:	83 bf       	out	0x33, r24	; 51
-	CLEAR_BIT(TCCR0,WGM00);
  55a:	83 b7       	in	r24, 0x33	; 51
  55c:	8f 7b       	andi	r24, 0xBF	; 191
  55e:	83 bf       	out	0x33, r24	; 51
-	
-	
-	/************************************************************************/
-	/* Clear TCNT0 and set OCR0                                             */
-	/************************************************************************/
-	TCNT0 =0x00;
  560:	12 be       	out	0x32, r1	; 50
-	OCR0 = 124U;
  562:	8c e7       	ldi	r24, 0x7C	; 124
  564:	8c bf       	out	0x3c, r24	; 60
-	
-	/************************************************************************/
-	/* Set Prescaler to 64 so we can get 1ms every 250 count in OCR0        */
-	/************************************************************************/
-	SET_BIT(TCCR0,CS00);
  566:	83 b7       	in	r24, 0x33	; 51
  568:	81 60       	ori	r24, 0x01	; 1
  56a:	83 bf       	out	0x33, r24	; 51
-	SET_BIT(TCCR0,CS01);
  56c:	83 b7       	in	r24, 0x33	; 51
  56e:	82 60       	ori	r24, 0x02	; 2
  570:	83 bf       	out	0x33, r24	; 51
-	CLEAR_BIT(TCCR0,CS02);
  572:	83 b7       	in	r24, 0x33	; 51
  574:	8b 7f       	andi	r24, 0xFB	; 251
  576:	83 bf       	out	0x33, r24	; 51
-	SET_BIT(TIMSK,OCIE0); /* enable interrupt when compare match occur */
  578:	89 b7       	in	r24, 0x39	; 57
  57a:	82 60       	ori	r24, 0x02	; 2
  57c:	89 bf       	out	0x39, r24	; 57
