@@ -270,7 +270,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x528
+.text           0x00000000      0x51c
  *(.vectors)
  .vectors       0x00000000       0x54 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega32a/avr5/crtatmega32a.o
                 0x00000000                __vector_default
@@ -369,18 +369,18 @@ END GROUP
  .text.__vector_10
                 0x000003fa       0x7e Inerrupts/Interrupts.o
                 0x000003fa                __vector_10
- .text.main     0x00000478       0x3e main.o
+ .text.main     0x00000478       0x32 main.o
                 0x00000478                main
  .text.TimerOneInit
-                0x000004b6       0x56 Timer/Timer.o
-                0x000004b6                TimerOneInit
- .text.libgcc   0x0000050c       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_adddi3_s8.o)
-                0x0000050c                __adddi3_s8
-                0x00000524                . = ALIGN (0x2)
+                0x000004aa       0x56 Timer/Timer.o
+                0x000004aa                TimerOneInit
+ .text.libgcc   0x00000500       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_adddi3_s8.o)
+                0x00000500                __adddi3_s8
+                0x00000518                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000524        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x00000524                _exit
-                0x00000524                exit
+ .fini9         0x00000518        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x00000518                _exit
+                0x00000518                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -399,11 +399,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000524        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000518        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000528                _etext = .
+                0x0000051c                _etext = .
 
-.data           0x00800060        0x0 load address 0x00000528
+.data           0x00800060        0x0 load address 0x0000051c
                 [!provide]                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -425,8 +425,8 @@ END GROUP
                 0x00800061                Gtick
  *(COMMON)
                 0x00800069                PROVIDE (__bss_end, .)
-                0x00000528                __data_load_start = LOADADDR (.data)
-                0x00000528                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000051c                __data_load_start = LOADADDR (.data)
+                0x0000051c                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800069        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -517,32 +517,32 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xc5e
+.debug_info     0x00000000      0xc2d
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x4e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega32a/avr5/crtatmega32a.o
  .debug_info    0x000004e6      0x33b DCMotorDriver/DCMotor.o
  .debug_info    0x00000821      0x109 DIO/Dio.o
  .debug_info    0x0000092a      0x101 Inerrupts/Interrupts.o
- .debug_info    0x00000a2b      0x16b main.o
- .debug_info    0x00000b96       0xc8 Timer/Timer.o
+ .debug_info    0x00000a2b      0x13a main.o
+ .debug_info    0x00000b65       0xc8 Timer/Timer.o
 
-.debug_abbrev   0x00000000      0x7cf
+.debug_abbrev   0x00000000      0x7b7
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x4a3 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega32a/avr5/crtatmega32a.o
  .debug_abbrev  0x000004a3      0x10f DCMotorDriver/DCMotor.o
  .debug_abbrev  0x000005b2       0x8b DIO/Dio.o
  .debug_abbrev  0x0000063d       0x81 Inerrupts/Interrupts.o
- .debug_abbrev  0x000006be       0xa4 main.o
- .debug_abbrev  0x00000762       0x6d Timer/Timer.o
+ .debug_abbrev  0x000006be       0x8c main.o
+ .debug_abbrev  0x0000074a       0x6d Timer/Timer.o
 
-.debug_line     0x00000000      0x742
+.debug_line     0x00000000      0x744
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x115 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega32a/avr5/crtatmega32a.o
- .debug_line    0x00000115      0x1e5 DCMotorDriver/DCMotor.o
- .debug_line    0x000002fa      0x176 DIO/Dio.o
- .debug_line    0x00000470      0x111 Inerrupts/Interrupts.o
- .debug_line    0x00000581       0x7d main.o
- .debug_line    0x000005fe      0x144 Timer/Timer.o
+ .debug_line    0x00000115      0x1e7 DCMotorDriver/DCMotor.o
+ .debug_line    0x000002fc      0x176 DIO/Dio.o
+ .debug_line    0x00000472      0x111 Inerrupts/Interrupts.o
+ .debug_line    0x00000583       0x7d main.o
+ .debug_line    0x00000600      0x144 Timer/Timer.o
 
 .debug_frame    0x00000000      0x184
  *(.debug_frame)
@@ -552,18 +552,18 @@ END GROUP
  .debug_frame   0x0000011c       0x24 main.o
  .debug_frame   0x00000140       0x44 Timer/Timer.o
 
-.debug_str      0x00000000      0x483
+.debug_str      0x00000000      0x4ad
  *(.debug_str)
  .debug_str     0x00000000      0x196 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega32a/avr5/crtatmega32a.o
- .debug_str     0x00000196      0x22a DCMotorDriver/DCMotor.o
-                                0x25e (size before relaxing)
- .debug_str     0x000003c0       0x1d DIO/Dio.o
+ .debug_str     0x00000196      0x20e DCMotorDriver/DCMotor.o
+                                0x242 (size before relaxing)
+ .debug_str     0x000003a4       0x63 DIO/Dio.o
                                 0x1b8 (size before relaxing)
- .debug_str     0x000003dd       0x5b Inerrupts/Interrupts.o
+ .debug_str     0x00000407       0x5b Inerrupts/Interrupts.o
                                 0x1d6 (size before relaxing)
- .debug_str     0x00000438       0x1e main.o
-                                0x1ae (size before relaxing)
- .debug_str     0x00000456       0x2d Timer/Timer.o
+ .debug_str     0x00000462       0x1e main.o
+                                0x192 (size before relaxing)
+ .debug_str     0x00000480       0x2d Timer/Timer.o
                                 0x1a8 (size before relaxing)
 
 .debug_loc      0x00000000      0x793

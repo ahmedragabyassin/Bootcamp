@@ -5,8 +5,9 @@
  *  Author: Ahmed Yassin
  */ 
 
+
 #include "../Includes//Timer.h"
-#include "../Includes/TimerMemMap.h"
+#include "../Includes/TimerMemMap.h" /* memory map for registers */
 
 /************************************************************************/
 /* Function: Timer Init                                                 */

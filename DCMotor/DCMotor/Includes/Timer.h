@@ -8,10 +8,17 @@
 
 #ifndef TIMER_H_
 #define TIMER_H_
+
+/************************************************************************/
+/* Include required header files                                        */
+/************************************************************************/
 #include "types.h"
 #include "BitwiseOperations.h"
 #include "CommonDefinations.h"
 
+/************************************************************************/
+/* Define max and top values for the timer                              */
+/************************************************************************/
 #define TOP_VALUE			1900
 #define MAX_VALUE			3000
 

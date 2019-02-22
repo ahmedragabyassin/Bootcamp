@@ -39,8 +39,40 @@
 /* fUNCTIONS PROTOTYPES                                                 */
 /************************************************************************/
 
-void DC_MotorInit(uint8 MotorEnablePin,uint8 MotorDirPinA,uint8 MotorDirPinB);
+
+
+/************************************************************************/
+/* Function: DC Motor Init                                              */
+/* @param: MotorEnablePin, enable pin for the motor                     */
+/* @param: MotorDirPinA, direction pin A                                */
+/* @param: MotorDirPinB, direction pin B                                */
+/* return : void			                                            */
+/* Description:set motor pins direction by writing IN or OUT on pins    */
+/************************************************************************/
+void DC_Motor_Init(uint8 MotorEnablePin,uint8 MotorDirPinA,uint8 MotorDirPinB);
+
+
+
+/************************************************************************/
+/* Function: DC Motor move                                              */
+/* @param: MotorEnablePin, enable pin for the motor                     */
+/* @param: Dir_A, direction pin A				                        */
+/* @param: Dir_B, direction pin B										*/
+/* @param: Dir, direction to move forward or backward					*/
+/* return : void			                                            */
+/* Description:set motor direction to move forward or backward			*/
+/************************************************************************/
 void DC_MotorMove(uint8 MotorEnablePin,uint8 DIR_A,uint8 DIR_B, uint8 Dir);
+
+
+/************************************************************************/
+/* Function: DC Set Motor Direction                                     */
+/* @param: Dir_A, direction pin A				                        */
+/* @param: Dir_B, direction pin B										*/
+/* @param: Dir, direction to move right or left							*/
+/* return : void			                                            */
+/* Description:set motor direction to move right or left				*/
+/************************************************************************/
 void DC_SetMotorDirection(uint8 Dir, uint8 DIR_A,uint8 DIR_B);
 
 
