@@ -90,7 +90,7 @@ void TimerOneInit(void)
 
 /************************************************************************/
 /* Function: Timer delay                                                */
-/* @param: n, numer of ms 			                                    */
+/* @param: n, number of ms 			                                    */
 /* return: void			                                                */
 /* Description: delay for n ms			                                */
 /************************************************************************/

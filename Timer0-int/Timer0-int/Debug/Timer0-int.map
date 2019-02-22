@@ -470,7 +470,7 @@ END GROUP
  .debug_frame   0x000000d0       0x24 main.o
  .debug_frame   0x000000f4       0x34 Timer/Timer.o
 
-.debug_str      0x00000000      0x3eb
+.debug_str      0x00000000      0x3b1
  *(.debug_str)
  .debug_str     0x00000000      0x196 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega32a/avr5/crtatmega32a.o
  .debug_str     0x00000196      0x17b DIO/Dio.o
@@ -479,8 +479,8 @@ END GROUP
                                 0x1c1 (size before relaxing)
  .debug_str     0x0000036d       0x21 main.o
                                 0x1c9 (size before relaxing)
- .debug_str     0x0000038e       0x5d Timer/Timer.o
-                                0x18f (size before relaxing)
+ .debug_str     0x0000038e       0x23 Timer/Timer.o
+                                0x185 (size before relaxing)
 
 .debug_loc      0x00000000      0x55e
  *(.debug_loc)

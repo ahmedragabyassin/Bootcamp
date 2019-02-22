@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00000128  00000000  00000000  00001db4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000003eb  00000000  00000000  00001edc  2**0
+ 10 .debug_str    000003b1  00000000  00000000  00001edc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000055e  00000000  00000000  000022c7  2**0
+ 11 .debug_loc    0000055e  00000000  00000000  0000228d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000068  00000000  00000000  00002825  2**0
+ 12 .debug_ranges 00000068  00000000  00000000  000027eb  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -544,7 +544,7 @@ int main(void)
 	
 	TimerInit();
 	Interrupts_init();
-    while (1) 
+    while (NUM_1)
     {
 			switch(state)
  366:	c1 30       	cpi	r28, 0x01	; 1
@@ -792,24 +792,46 @@ int main(void)
  552:	09 cf       	rjmp	.-494    	; 0x366 <main+0x2c>
 
 00000554 <TimerInit>:
+void TimerInit(void)
+{
+	/************************************************************************/
+	/* Config Timer0 in CTC mode                                            */
+	/************************************************************************/
+	SET_BIT(TCCR0,WGM01);
  554:	83 b7       	in	r24, 0x33	; 51
  556:	88 60       	ori	r24, 0x08	; 8
  558:	83 bf       	out	0x33, r24	; 51
+	CLEAR_BIT(TCCR0,WGM00);
  55a:	83 b7       	in	r24, 0x33	; 51
  55c:	8f 7b       	andi	r24, 0xBF	; 191
  55e:	83 bf       	out	0x33, r24	; 51
+	
+	
+	/************************************************************************/
+	/* Clear TCNT0 and set OCR0                                             */
+	/************************************************************************/
+	TCNT0 = TCNT0_INITIAL_VALUE;
  560:	12 be       	out	0x32, r1	; 50
+	OCR0  = OCR0_VALUE;
  562:	8c e7       	ldi	r24, 0x7C	; 124
  564:	8c bf       	out	0x3c, r24	; 60
+	
+	/************************************************************************/
+	/* Set Prescaler to 64 so we can get 1ms every 250 count in OCR0        */
+	/************************************************************************/
+	SET_BIT(TCCR0,CS00);
  566:	83 b7       	in	r24, 0x33	; 51
  568:	81 60       	ori	r24, 0x01	; 1
  56a:	83 bf       	out	0x33, r24	; 51
+	SET_BIT(TCCR0,CS01);
  56c:	83 b7       	in	r24, 0x33	; 51
  56e:	82 60       	ori	r24, 0x02	; 2
  570:	83 bf       	out	0x33, r24	; 51
+	CLEAR_BIT(TCCR0,CS02);
  572:	83 b7       	in	r24, 0x33	; 51
  574:	8b 7f       	andi	r24, 0xFB	; 251
  576:	83 bf       	out	0x33, r24	; 51
+	SET_BIT(TIMSK,OCIE0); /* enable interrupt when compare match occur */
  578:	89 b7       	in	r24, 0x39	; 57
  57a:	82 60       	ori	r24, 0x02	; 2
  57c:	89 bf       	out	0x39, r24	; 57

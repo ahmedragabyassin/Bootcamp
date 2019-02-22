@@ -11,6 +11,10 @@
 #include "types.h"
 #include "BitwiseOperations.h"
 
+#define TCNT0_INITIAL_VALUE			0x00
+#define OCR0_VALUE					124U
+
+
 /************************************************************************/
 /* Function: Timer Init                                                 */
 /* @param: void			                                                */

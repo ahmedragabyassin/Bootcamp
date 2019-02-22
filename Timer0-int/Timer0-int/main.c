@@ -30,7 +30,7 @@ int main(void)
 	
 	TimerInit();
 	Interrupts_init();
-    while (1) 
+    while (NUM_1)
     {
 			switch(state)
 				{
