@@ -25,7 +25,7 @@
 #define NUM_24					24
 #define NUM_32					32
 #define NULL_CHAR				'\0'
-
+#define NUM_100					100
 #define ENABLE_CODE					1
 #define CLEAR_CODE					0
 

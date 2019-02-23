@@ -3,31 +3,31 @@ DCMotor.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000051c  00000000  00000000  00000074  2**1
+  0 .text         000005d8  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  00000590  2**0
+  1 .data         00000000  00800060  00800060  0000064c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000009  00800060  00800060  00000590  2**0
+  2 .bss          00000009  00800060  00800060  0000064c  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000590  2**0
+  3 .comment      00000030  00000000  00000000  0000064c  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000005c0  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000067c  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000d8  00000000  00000000  000005fc  2**0
+  5 .debug_aranges 000000d8  00000000  00000000  000006b8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000c2d  00000000  00000000  000006d4  2**0
+  6 .debug_info   00000dd2  00000000  00000000  00000790  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000007b7  00000000  00000000  00001301  2**0
+  7 .debug_abbrev 00000874  00000000  00000000  00001562  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000744  00000000  00000000  00001ab8  2**0
+  8 .debug_line   00000845  00000000  00000000  00001dd6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000184  00000000  00000000  000021fc  2**2
+  9 .debug_frame  00000184  00000000  00000000  0000261c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000004ad  00000000  00000000  00002380  2**0
+ 10 .debug_str    00000482  00000000  00000000  000027a0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000793  00000000  00000000  0000282d  2**0
+ 11 .debug_loc    000008b2  00000000  00000000  00002c22  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000088  00000000  00000000  00002fc0  2**0
+ 12 .debug_ranges 00000088  00000000  00000000  000034d4  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -77,7 +77,7 @@ Disassembly of section .text:
   6c:	b2 07       	cpc	r27, r18
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
   70:	0e 94 3c 02 	call	0x478	; 0x478 <main>
-  74:	0c 94 8c 02 	jmp	0x518	; 0x518 <_exit>
+  74:	0c 94 ea 02 	jmp	0x5d4	; 0x5d4 <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -131,7 +131,7 @@ void DC_MotorMove(uint8 MotorEnablePin,uint8 DIR_A,uint8 DIR_B, uint8 Dir)
   b4:	43 c0       	rjmp	.+134    	; 0x13c <DC_MotorMove+0x9c>
 	{
 		case MOTOR_FORWARD:
-		if (DIO_ReadPin(DIR_A) == LOW && DIO_ReadPin(DIR_B) == HIGH )
+			if (DIO_ReadPin(DIR_A) == LOW && DIO_ReadPin(DIR_B) == HIGH ) /* check if the previous was backward make it stop first then reverse */
   b6:	86 2f       	mov	r24, r22
   b8:	0e 94 26 01 	call	0x24c	; 0x24c <DIO_ReadPin>
   bc:	81 11       	cpse	r24, r1
@@ -140,8 +140,8 @@ void DC_MotorMove(uint8 MotorEnablePin,uint8 DIR_A,uint8 DIR_B, uint8 Dir)
   c2:	0e 94 26 01 	call	0x24c	; 0x24c <DIO_ReadPin>
   c6:	81 30       	cpi	r24, 0x01	; 1
   c8:	69 f4       	brne	.+26     	; 0xe4 <DC_MotorMove+0x44>
-		{
-			DIO_WritePin(DIR_B,LOW);
+			{
+				DIO_WritePin(DIR_B,LOW);
   ca:	60 e0       	ldi	r22, 0x00	; 0
   cc:	8d 2f       	mov	r24, r29
   ce:	0e 94 a1 00 	call	0x142	; 0x142 <DIO_WritePin>
@@ -160,21 +160,20 @@ void DC_MotorMove(uint8 MotorEnablePin,uint8 DIR_A,uint8 DIR_B, uint8 Dir)
   de:	e1 f7       	brne	.-8      	; 0xd8 <DC_MotorMove+0x38>
   e0:	00 c0       	rjmp	.+0      	; 0xe2 <DC_MotorMove+0x42>
   e2:	00 00       	nop
-			_delay_ms(100);
-		}
-		DIO_WritePin(DIR_A,HIGH);
+				_delay_ms(100); /* delay to slow down the motor */
+			}
+			DIO_WritePin(DIR_A,HIGH);
   e4:	61 e0       	ldi	r22, 0x01	; 1
   e6:	8c 2f       	mov	r24, r28
   e8:	0e 94 a1 00 	call	0x142	; 0x142 <DIO_WritePin>
-		DIO_WritePin(DIR_B,LOW);
+			DIO_WritePin(DIR_B,LOW);
   ec:	60 e0       	ldi	r22, 0x00	; 0
   ee:	8d 2f       	mov	r24, r29
   f0:	0e 94 a1 00 	call	0x142	; 0x142 <DIO_WritePin>
-		//DIO_WritePin(MotorEnablePin,HIGH);
-		break;
+			break;
   f4:	23 c0       	rjmp	.+70     	; 0x13c <DC_MotorMove+0x9c>
 		case MOTOR_BACKWARD:
-		if (DIO_ReadPin(DIR_B) == LOW && DIO_ReadPin(DIR_A) == HIGH )
+			if (DIO_ReadPin(DIR_B) == LOW && DIO_ReadPin(DIR_A) == HIGH ) /* check if the previous was forward make it stop first then reverse */
   f6:	84 2f       	mov	r24, r20
   f8:	0e 94 26 01 	call	0x24c	; 0x24c <DIO_ReadPin>
   fc:	81 11       	cpse	r24, r1
@@ -183,8 +182,8 @@ void DC_MotorMove(uint8 MotorEnablePin,uint8 DIR_A,uint8 DIR_B, uint8 Dir)
  102:	0e 94 26 01 	call	0x24c	; 0x24c <DIO_ReadPin>
  106:	81 30       	cpi	r24, 0x01	; 1
  108:	69 f4       	brne	.+26     	; 0x124 <DC_MotorMove+0x84>
-		{
-			DIO_WritePin(DIR_A,LOW);
+			{
+				DIO_WritePin(DIR_A,LOW);
  10a:	60 e0       	ldi	r22, 0x00	; 0
  10c:	8c 2f       	mov	r24, r28
  10e:	0e 94 a1 00 	call	0x142	; 0x142 <DIO_WritePin>
@@ -197,24 +196,23 @@ void DC_MotorMove(uint8 MotorEnablePin,uint8 DIR_A,uint8 DIR_B, uint8 Dir)
  11e:	e1 f7       	brne	.-8      	; 0x118 <DC_MotorMove+0x78>
  120:	00 c0       	rjmp	.+0      	; 0x122 <DC_MotorMove+0x82>
  122:	00 00       	nop
-			_delay_ms(100);
-		}
-		DIO_WritePin(DIR_B,HIGH);
+				_delay_ms(100); /* delay to slow down the motor */
+			}
+			DIO_WritePin(DIR_B,HIGH);
  124:	61 e0       	ldi	r22, 0x01	; 1
  126:	8d 2f       	mov	r24, r29
  128:	0e 94 a1 00 	call	0x142	; 0x142 <DIO_WritePin>
-		DIO_WritePin(DIR_A,LOW);
+			DIO_WritePin(DIR_A,LOW);
  12c:	60 e0       	ldi	r22, 0x00	; 0
  12e:	8c 2f       	mov	r24, r28
  130:	0e 94 a1 00 	call	0x142	; 0x142 <DIO_WritePin>
-		//DIO_WritePin(MotorEnablePin,HIGH);
-		break;
+			break;
  134:	03 c0       	rjmp	.+6      	; 0x13c <DC_MotorMove+0x9c>
 		case MOTOR_STOP:
-		DIO_WritePin(MotorEnablePin,LOW);
+			DIO_WritePin(MotorEnablePin,LOW);/* stop the motor by writing low on the enable pin */
  136:	60 e0       	ldi	r22, 0x00	; 0
  138:	0e 94 a1 00 	call	0x142	; 0x142 <DIO_WritePin>
-		break;
+			break;
 	}
 	
 }
@@ -733,7 +731,7 @@ ISR(TIMER0_COMP_vect)
  42e:	80 91 67 00 	lds	r24, 0x0067	; 0x800067 <Gtick+0x6>
  432:	90 91 68 00 	lds	r25, 0x0068	; 0x800068 <Gtick+0x7>
  436:	a1 e0       	ldi	r26, 0x01	; 1
- 438:	0e 94 80 02 	call	0x500	; 0x500 <__adddi3_s8>
+ 438:	0e 94 ca 02 	call	0x594	; 0x594 <__adddi3_s8>
  43c:	20 93 61 00 	sts	0x0061, r18	; 0x800061 <Gtick>
  440:	30 93 62 00 	sts	0x0062, r19	; 0x800062 <Gtick+0x1>
  444:	40 93 63 00 	sts	0x0063, r20	; 0x800063 <Gtick+0x2>
@@ -759,130 +757,245 @@ ISR(TIMER0_COMP_vect)
  476:	18 95       	reti
 
 00000478 <main>:
-int main(void)
-{
+	
+	#if ENABLE_CODE
 	/************************************************************************/
 	/* Initialize timer 1 in PWM and initialize motors in direction         */
 	/************************************************************************/
-    TimerOneInit();
- 478:	0e 94 55 02 	call	0x4aa	; 0x4aa <TimerOneInit>
+    TimerOneInit(DUTY_25);
+ 478:	89 e1       	ldi	r24, 0x19	; 25
+ 47a:	0e 94 83 02 	call	0x506	; 0x506 <TimerOneInit>
+ 47e:	2f ef       	ldi	r18, 0xFF	; 255
+ 480:	83 ed       	ldi	r24, 0xD3	; 211
+ 482:	90 e3       	ldi	r25, 0x30	; 48
+ 484:	21 50       	subi	r18, 0x01	; 1
+ 486:	80 40       	sbci	r24, 0x00	; 0
+ 488:	90 40       	sbci	r25, 0x00	; 0
+ 48a:	e1 f7       	brne	.-8      	; 0x484 <main+0xc>
+ 48c:	00 c0       	rjmp	.+0      	; 0x48e <main+0x16>
+ 48e:	00 00       	nop
+	_delay_ms(ONE_1000_MS);
+	/* Motor 1 */
 	DC_Motor_Init(MOTOR1_ENABLE,MOTOR1_DIRECTION_A,MOTOR1_DIRECTION_B);
- 47c:	4b e1       	ldi	r20, 0x1B	; 27
- 47e:	6a e1       	ldi	r22, 0x1A	; 26
- 480:	8c e1       	ldi	r24, 0x1C	; 28
- 482:	0e 94 3e 00 	call	0x7c	; 0x7c <DC_Motor_Init>
+ 490:	4b e1       	ldi	r20, 0x1B	; 27
+ 492:	6a e1       	ldi	r22, 0x1A	; 26
+ 494:	8c e1       	ldi	r24, 0x1C	; 28
+ 496:	0e 94 3e 00 	call	0x7c	; 0x7c <DC_Motor_Init>
 	DC_MotorMove(MOTOR1_ENABLE,MOTOR1_DIRECTION_A,MOTOR1_DIRECTION_B,MOTOR_BACKWARD);
- 486:	21 e0       	ldi	r18, 0x01	; 1
- 488:	4b e1       	ldi	r20, 0x1B	; 27
- 48a:	6a e1       	ldi	r22, 0x1A	; 26
- 48c:	8c e1       	ldi	r24, 0x1C	; 28
- 48e:	0e 94 50 00 	call	0xa0	; 0xa0 <DC_MotorMove>
+ 49a:	21 e0       	ldi	r18, 0x01	; 1
+ 49c:	4b e1       	ldi	r20, 0x1B	; 27
+ 49e:	6a e1       	ldi	r22, 0x1A	; 26
+ 4a0:	8c e1       	ldi	r24, 0x1C	; 28
+ 4a2:	0e 94 50 00 	call	0xa0	; 0xa0 <DC_MotorMove>
+	/* motor 2*/
 	DC_Motor_Init(MOTOR2_ENABLE,MOTOR2_DIRECTION_A,MOTOR2_DIRECTION_B);
- 492:	4f e1       	ldi	r20, 0x1F	; 31
- 494:	6e e1       	ldi	r22, 0x1E	; 30
- 496:	8d e1       	ldi	r24, 0x1D	; 29
- 498:	0e 94 3e 00 	call	0x7c	; 0x7c <DC_Motor_Init>
+ 4a6:	4f e1       	ldi	r20, 0x1F	; 31
+ 4a8:	6e e1       	ldi	r22, 0x1E	; 30
+ 4aa:	8d e1       	ldi	r24, 0x1D	; 29
+ 4ac:	0e 94 3e 00 	call	0x7c	; 0x7c <DC_Motor_Init>
 	DC_MotorMove(MOTOR2_ENABLE,MOTOR2_DIRECTION_A,MOTOR2_DIRECTION_B,MOTOR_FORWARD);
- 49c:	20 e0       	ldi	r18, 0x00	; 0
- 49e:	4f e1       	ldi	r20, 0x1F	; 31
- 4a0:	6e e1       	ldi	r22, 0x1E	; 30
- 4a2:	8d e1       	ldi	r24, 0x1D	; 29
- 4a4:	0e 94 50 00 	call	0xa0	; 0xa0 <DC_MotorMove>
- 4a8:	ff cf       	rjmp	.-2      	; 0x4a8 <main+0x30>
+ 4b0:	20 e0       	ldi	r18, 0x00	; 0
+ 4b2:	4f e1       	ldi	r20, 0x1F	; 31
+ 4b4:	6e e1       	ldi	r22, 0x1E	; 30
+ 4b6:	8d e1       	ldi	r24, 0x1D	; 29
+ 4b8:	0e 94 50 00 	call	0xa0	; 0xa0 <DC_MotorMove>
+	TimerOneInit(DUTY_50);
+ 4bc:	82 e3       	ldi	r24, 0x32	; 50
+ 4be:	0e 94 83 02 	call	0x506	; 0x506 <TimerOneInit>
+ 4c2:	2f ef       	ldi	r18, 0xFF	; 255
+ 4c4:	83 ed       	ldi	r24, 0xD3	; 211
+ 4c6:	90 e3       	ldi	r25, 0x30	; 48
+ 4c8:	21 50       	subi	r18, 0x01	; 1
+ 4ca:	80 40       	sbci	r24, 0x00	; 0
+ 4cc:	90 40       	sbci	r25, 0x00	; 0
+ 4ce:	e1 f7       	brne	.-8      	; 0x4c8 <main+0x50>
+ 4d0:	00 c0       	rjmp	.+0      	; 0x4d2 <main+0x5a>
+ 4d2:	00 00       	nop
+	_delay_ms(ONE_1000_MS);
+	TimerOneInit(DUTY_75);
+ 4d4:	8b e4       	ldi	r24, 0x4B	; 75
+ 4d6:	0e 94 83 02 	call	0x506	; 0x506 <TimerOneInit>
+ 4da:	2f ef       	ldi	r18, 0xFF	; 255
+ 4dc:	83 ed       	ldi	r24, 0xD3	; 211
+ 4de:	90 e3       	ldi	r25, 0x30	; 48
+ 4e0:	21 50       	subi	r18, 0x01	; 1
+ 4e2:	80 40       	sbci	r24, 0x00	; 0
+ 4e4:	90 40       	sbci	r25, 0x00	; 0
+ 4e6:	e1 f7       	brne	.-8      	; 0x4e0 <main+0x68>
+ 4e8:	00 c0       	rjmp	.+0      	; 0x4ea <main+0x72>
+ 4ea:	00 00       	nop
+	_delay_ms(ONE_1000_MS);
+	TimerOneInit(DUTY_100);
+ 4ec:	84 e6       	ldi	r24, 0x64	; 100
+ 4ee:	0e 94 83 02 	call	0x506	; 0x506 <TimerOneInit>
+ 4f2:	2f ef       	ldi	r18, 0xFF	; 255
+ 4f4:	83 ed       	ldi	r24, 0xD3	; 211
+ 4f6:	90 e3       	ldi	r25, 0x30	; 48
+ 4f8:	21 50       	subi	r18, 0x01	; 1
+ 4fa:	80 40       	sbci	r24, 0x00	; 0
+ 4fc:	90 40       	sbci	r25, 0x00	; 0
+ 4fe:	e1 f7       	brne	.-8      	; 0x4f8 <main+0x80>
+ 500:	00 c0       	rjmp	.+0      	; 0x502 <main+0x8a>
+ 502:	00 00       	nop
+ 504:	ff cf       	rjmp	.-2      	; 0x504 <main+0x8c>
 
-000004aa <TimerOneInit>:
+00000506 <TimerOneInit>:
+/* Description: initialize timer 		                                */
+/************************************************************************/
+void TimerOneInit(uint8 DutyCycle)
+{
 	
-	
+	uint16 OCR_value = (MAX_VALUE - ((DutyCycle * (MAX_VALUE + 1 ) ))/NUM_100);
+ 506:	21 ed       	ldi	r18, 0xD1	; 209
+ 508:	37 e0       	ldi	r19, 0x07	; 7
+ 50a:	48 2f       	mov	r20, r24
+ 50c:	42 9f       	mul	r20, r18
+ 50e:	c0 01       	movw	r24, r0
+ 510:	43 9f       	mul	r20, r19
+ 512:	90 0d       	add	r25, r0
+ 514:	11 24       	eor	r1, r1
+ 516:	64 e6       	ldi	r22, 0x64	; 100
+ 518:	70 e0       	ldi	r23, 0x00	; 0
+ 51a:	0e 94 b6 02 	call	0x56c	; 0x56c <__divmodhi4>
+ 51e:	80 ed       	ldi	r24, 0xD0	; 208
+ 520:	97 e0       	ldi	r25, 0x07	; 7
+ 522:	86 1b       	sub	r24, r22
+ 524:	97 0b       	sbc	r25, r23
 	/************************************************************************/
 	/* initialize registers                                                 */
 	/************************************************************************/
 	TCNT1H = NUM_0;
- 4aa:	1d bc       	out	0x2d, r1	; 45
+ 526:	1d bc       	out	0x2d, r1	; 45
 	TCNT1L = NUM_0;
- 4ac:	1c bc       	out	0x2c, r1	; 44
+ 528:	1c bc       	out	0x2c, r1	; 44
 	
-	OCR1AL = TOP_VALUE;
- 4ae:	9c e6       	ldi	r25, 0x6C	; 108
- 4b0:	9a bd       	out	0x2a, r25	; 42
-	OCR1AH = (TOP_VALUE>>SHIFT_EIGHT); /* set ocr1 to 1000 */
- 4b2:	87 e0       	ldi	r24, 0x07	; 7
- 4b4:	8b bd       	out	0x2b, r24	; 43
+	OCR1AH = (OCR_value>>SHIFT_EIGHT); /* set ocr1 to 1000 */
+ 52a:	9b bd       	out	0x2b, r25	; 43
+	OCR1AL = OCR_value;
+ 52c:	8a bd       	out	0x2a, r24	; 42
 	
-	OCR1BL = TOP_VALUE;
- 4b6:	98 bd       	out	0x28, r25	; 40
-	OCR1BH = (TOP_VALUE>>SHIFT_EIGHT); /* set ocr1 to 1000 */
- 4b8:	89 bd       	out	0x29, r24	; 41
+	OCR1BH = (OCR_value>>SHIFT_EIGHT); /* set ocr1 to 1000 */
+ 52e:	99 bd       	out	0x29, r25	; 41
+	OCR1BL = OCR_value;
+ 530:	88 bd       	out	0x28, r24	; 40
 	
 	ICR1L = MAX_VALUE;
- 4ba:	88 eb       	ldi	r24, 0xB8	; 184
- 4bc:	86 bd       	out	0x26, r24	; 38
+ 532:	80 ed       	ldi	r24, 0xD0	; 208
+ 534:	86 bd       	out	0x26, r24	; 38
 	ICR1H = (MAX_VALUE>>SHIFT_EIGHT);
- 4be:	8b e0       	ldi	r24, 0x0B	; 11
- 4c0:	87 bd       	out	0x27, r24	; 39
+ 536:	87 e0       	ldi	r24, 0x07	; 7
+ 538:	87 bd       	out	0x27, r24	; 39
 	
 	/************************************************************************/
 	/* Config Timer1 in PWM phase correct mode                              */
 	/************************************************************************/
 	SET_BIT(TCCR1A,COM1A1);
- 4c2:	8f b5       	in	r24, 0x2f	; 47
- 4c4:	80 68       	ori	r24, 0x80	; 128
- 4c6:	8f bd       	out	0x2f, r24	; 47
-	SET_BIT(TCCR1A,COM1A0);
- 4c8:	8f b5       	in	r24, 0x2f	; 47
- 4ca:	80 64       	ori	r24, 0x40	; 64
- 4cc:	8f bd       	out	0x2f, r24	; 47
+ 53a:	8f b5       	in	r24, 0x2f	; 47
+ 53c:	80 68       	ori	r24, 0x80	; 128
+ 53e:	8f bd       	out	0x2f, r24	; 47
+	//SET_BIT(TCCR1A,COM1A0);
 	SET_BIT(TCCR1A,COM1B1);
- 4ce:	8f b5       	in	r24, 0x2f	; 47
- 4d0:	80 62       	ori	r24, 0x20	; 32
- 4d2:	8f bd       	out	0x2f, r24	; 47
-	SET_BIT(TCCR1A,COM1B0);
- 4d4:	8f b5       	in	r24, 0x2f	; 47
- 4d6:	80 61       	ori	r24, 0x10	; 16
- 4d8:	8f bd       	out	0x2f, r24	; 47
+ 540:	8f b5       	in	r24, 0x2f	; 47
+ 542:	80 62       	ori	r24, 0x20	; 32
+ 544:	8f bd       	out	0x2f, r24	; 47
+	//SET_BIT(TCCR1A,COM1B0);
 	
 	CLEAR_BIT(TCCR1A,FOC1A);
- 4da:	8f b5       	in	r24, 0x2f	; 47
- 4dc:	87 7f       	andi	r24, 0xF7	; 247
- 4de:	8f bd       	out	0x2f, r24	; 47
+ 546:	8f b5       	in	r24, 0x2f	; 47
+ 548:	87 7f       	andi	r24, 0xF7	; 247
+ 54a:	8f bd       	out	0x2f, r24	; 47
 	CLEAR_BIT(TCCR1A,FOC1B);
- 4e0:	8f b5       	in	r24, 0x2f	; 47
- 4e2:	8b 7f       	andi	r24, 0xFB	; 251
- 4e4:	8f bd       	out	0x2f, r24	; 47
+ 54c:	8f b5       	in	r24, 0x2f	; 47
+ 54e:	8b 7f       	andi	r24, 0xFB	; 251
+ 550:	8f bd       	out	0x2f, r24	; 47
 	
 	SET_BIT(TCCR1A,WGM11);
- 4e6:	8f b5       	in	r24, 0x2f	; 47
- 4e8:	82 60       	ori	r24, 0x02	; 2
- 4ea:	8f bd       	out	0x2f, r24	; 47
+ 552:	8f b5       	in	r24, 0x2f	; 47
+ 554:	82 60       	ori	r24, 0x02	; 2
+ 556:	8f bd       	out	0x2f, r24	; 47
 	SET_BIT(TCCR1B,WGM13);
- 4ec:	8e b5       	in	r24, 0x2e	; 46
- 4ee:	80 61       	ori	r24, 0x10	; 16
- 4f0:	8e bd       	out	0x2e, r24	; 46
+ 558:	8e b5       	in	r24, 0x2e	; 46
+ 55a:	80 61       	ori	r24, 0x10	; 16
+ 55c:	8e bd       	out	0x2e, r24	; 46
 	SET_BIT(TCCR1B,CS10);
- 4f2:	8e b5       	in	r24, 0x2e	; 46
- 4f4:	81 60       	ori	r24, 0x01	; 1
- 4f6:	8e bd       	out	0x2e, r24	; 46
+ 55e:	8e b5       	in	r24, 0x2e	; 46
+ 560:	81 60       	ori	r24, 0x01	; 1
+ 562:	8e bd       	out	0x2e, r24	; 46
 	CLEAR_BIT(TCCR1A,WGM10);
- 4f8:	8f b5       	in	r24, 0x2f	; 47
- 4fa:	8e 7f       	andi	r24, 0xFE	; 254
- 4fc:	8f bd       	out	0x2f, r24	; 47
- 4fe:	08 95       	ret
+ 564:	8f b5       	in	r24, 0x2f	; 47
+ 566:	8e 7f       	andi	r24, 0xFE	; 254
+ 568:	8f bd       	out	0x2f, r24	; 47
+ 56a:	08 95       	ret
 
-00000500 <__adddi3_s8>:
- 500:	00 24       	eor	r0, r0
- 502:	a7 fd       	sbrc	r26, 7
- 504:	00 94       	com	r0
- 506:	2a 0f       	add	r18, r26
- 508:	30 1d       	adc	r19, r0
- 50a:	40 1d       	adc	r20, r0
- 50c:	50 1d       	adc	r21, r0
- 50e:	60 1d       	adc	r22, r0
- 510:	70 1d       	adc	r23, r0
- 512:	80 1d       	adc	r24, r0
- 514:	90 1d       	adc	r25, r0
- 516:	08 95       	ret
+0000056c <__divmodhi4>:
+ 56c:	97 fb       	bst	r25, 7
+ 56e:	07 2e       	mov	r0, r23
+ 570:	16 f4       	brtc	.+4      	; 0x576 <__divmodhi4+0xa>
+ 572:	00 94       	com	r0
+ 574:	07 d0       	rcall	.+14     	; 0x584 <__divmodhi4_neg1>
+ 576:	77 fd       	sbrc	r23, 7
+ 578:	09 d0       	rcall	.+18     	; 0x58c <__divmodhi4_neg2>
+ 57a:	0e 94 d6 02 	call	0x5ac	; 0x5ac <__udivmodhi4>
+ 57e:	07 fc       	sbrc	r0, 7
+ 580:	05 d0       	rcall	.+10     	; 0x58c <__divmodhi4_neg2>
+ 582:	3e f4       	brtc	.+14     	; 0x592 <__divmodhi4_exit>
 
-00000518 <_exit>:
- 518:	f8 94       	cli
+00000584 <__divmodhi4_neg1>:
+ 584:	90 95       	com	r25
+ 586:	81 95       	neg	r24
+ 588:	9f 4f       	sbci	r25, 0xFF	; 255
+ 58a:	08 95       	ret
 
-0000051a <__stop_program>:
- 51a:	ff cf       	rjmp	.-2      	; 0x51a <__stop_program>
+0000058c <__divmodhi4_neg2>:
+ 58c:	70 95       	com	r23
+ 58e:	61 95       	neg	r22
+ 590:	7f 4f       	sbci	r23, 0xFF	; 255
+
+00000592 <__divmodhi4_exit>:
+ 592:	08 95       	ret
+
+00000594 <__adddi3_s8>:
+ 594:	00 24       	eor	r0, r0
+ 596:	a7 fd       	sbrc	r26, 7
+ 598:	00 94       	com	r0
+ 59a:	2a 0f       	add	r18, r26
+ 59c:	30 1d       	adc	r19, r0
+ 59e:	40 1d       	adc	r20, r0
+ 5a0:	50 1d       	adc	r21, r0
+ 5a2:	60 1d       	adc	r22, r0
+ 5a4:	70 1d       	adc	r23, r0
+ 5a6:	80 1d       	adc	r24, r0
+ 5a8:	90 1d       	adc	r25, r0
+ 5aa:	08 95       	ret
+
+000005ac <__udivmodhi4>:
+ 5ac:	aa 1b       	sub	r26, r26
+ 5ae:	bb 1b       	sub	r27, r27
+ 5b0:	51 e1       	ldi	r21, 0x11	; 17
+ 5b2:	07 c0       	rjmp	.+14     	; 0x5c2 <__udivmodhi4_ep>
+
+000005b4 <__udivmodhi4_loop>:
+ 5b4:	aa 1f       	adc	r26, r26
+ 5b6:	bb 1f       	adc	r27, r27
+ 5b8:	a6 17       	cp	r26, r22
+ 5ba:	b7 07       	cpc	r27, r23
+ 5bc:	10 f0       	brcs	.+4      	; 0x5c2 <__udivmodhi4_ep>
+ 5be:	a6 1b       	sub	r26, r22
+ 5c0:	b7 0b       	sbc	r27, r23
+
+000005c2 <__udivmodhi4_ep>:
+ 5c2:	88 1f       	adc	r24, r24
+ 5c4:	99 1f       	adc	r25, r25
+ 5c6:	5a 95       	dec	r21
+ 5c8:	a9 f7       	brne	.-22     	; 0x5b4 <__udivmodhi4_loop>
+ 5ca:	80 95       	com	r24
+ 5cc:	90 95       	com	r25
+ 5ce:	bc 01       	movw	r22, r24
+ 5d0:	cd 01       	movw	r24, r26
+ 5d2:	08 95       	ret
+
+000005d4 <_exit>:
+ 5d4:	f8 94       	cli
+
+000005d6 <__stop_program>:
+ 5d6:	ff cf       	rjmp	.-2      	; 0x5d6 <__stop_program>

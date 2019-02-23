@@ -33,6 +33,10 @@
 #define MOTOR_BACKWARD					1
 #define MOTOR_STOP						2
 
+#define DUTY_25							25
+#define DUTY_50							50
+#define DUTY_75							75
+#define DUTY_100						100
 
 
 /************************************************************************/

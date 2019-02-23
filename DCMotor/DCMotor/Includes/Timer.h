@@ -20,7 +20,7 @@
 /* Define max and top values for the timer                              */
 /************************************************************************/
 #define TOP_VALUE			1900
-#define MAX_VALUE			3000
+#define MAX_VALUE			2000
 
 
 /************************************************************************/
@@ -38,7 +38,7 @@ void TimerInit(void);
 /* return: void			                                                */
 /* Description: initialize timer 1 		                                */
 /************************************************************************/
-void TimerOneInit(void);
+void TimerOneInit(uint8 DutyCycle);
 
 
 /************************************************************************/

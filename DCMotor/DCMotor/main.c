@@ -16,14 +16,20 @@ int main(void)
 	/************************************************************************/
 	/* Initialize timer 1 in PWM and initialize motors in direction         */
 	/************************************************************************/
-    TimerOneInit();
+    TimerOneInit(DUTY_25);
+	_delay_ms(ONE_1000_MS);
 	/* Motor 1 */
 	DC_Motor_Init(MOTOR1_ENABLE,MOTOR1_DIRECTION_A,MOTOR1_DIRECTION_B);
 	DC_MotorMove(MOTOR1_ENABLE,MOTOR1_DIRECTION_A,MOTOR1_DIRECTION_B,MOTOR_BACKWARD);
 	/* motor 2*/
 	DC_Motor_Init(MOTOR2_ENABLE,MOTOR2_DIRECTION_A,MOTOR2_DIRECTION_B);
 	DC_MotorMove(MOTOR2_ENABLE,MOTOR2_DIRECTION_A,MOTOR2_DIRECTION_B,MOTOR_FORWARD);
-	
+	TimerOneInit(DUTY_50);
+	_delay_ms(ONE_1000_MS);
+	TimerOneInit(DUTY_75);
+	_delay_ms(ONE_1000_MS);
+	TimerOneInit(DUTY_100);
+	_delay_ms(ONE_1000_MS);
 	#endif
     while (NUM_1) 
     {

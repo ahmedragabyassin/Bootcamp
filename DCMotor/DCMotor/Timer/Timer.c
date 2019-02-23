@@ -9,6 +9,7 @@
 #include "../Includes//Timer.h"
 #include "../Includes/TimerMemMap.h" /* memory map for registers */
 
+
 /************************************************************************/
 /* Function: Timer Init                                                 */
 /* @param: void			                                                */
@@ -44,26 +45,25 @@ void TimerInit(void)
 
 /************************************************************************/
 /* Function: Timer Init                                                 */
-/* @param: void			                                                */
+/* @param: DutyCycle, 			                                        */
 /* return: void			                                                */
 /* Description: initialize timer 		                                */
 /************************************************************************/
-void TimerOneInit(void)
+void TimerOneInit(uint8 DutyCycle)
 {
 	
-	
-	
+	uint16 OCR_value = (MAX_VALUE - ((DutyCycle * (MAX_VALUE + 1 ) ))/NUM_100);
 	/************************************************************************/
 	/* initialize registers                                                 */
 	/************************************************************************/
 	TCNT1H = NUM_0;
 	TCNT1L = NUM_0;
 	
-	OCR1AL = TOP_VALUE;
-	OCR1AH = (TOP_VALUE>>SHIFT_EIGHT); /* set ocr1 to 1000 */
+	OCR1AH = (OCR_value>>SHIFT_EIGHT); /* set ocr1 to 1000 */
+	OCR1AL = OCR_value;
 	
-	OCR1BL = TOP_VALUE;
-	OCR1BH = (TOP_VALUE>>SHIFT_EIGHT); /* set ocr1 to 1000 */
+	OCR1BH = (OCR_value>>SHIFT_EIGHT); /* set ocr1 to 1000 */
+	OCR1BL = OCR_value;
 	
 	ICR1L = MAX_VALUE;
 	ICR1H = (MAX_VALUE>>SHIFT_EIGHT);
@@ -72,9 +72,9 @@ void TimerOneInit(void)
 	/* Config Timer1 in PWM phase correct mode                              */
 	/************************************************************************/
 	SET_BIT(TCCR1A,COM1A1);
-	SET_BIT(TCCR1A,COM1A0);
+	//SET_BIT(TCCR1A,COM1A0);
 	SET_BIT(TCCR1A,COM1B1);
-	SET_BIT(TCCR1A,COM1B0);
+	//SET_BIT(TCCR1A,COM1B0);
 	
 	CLEAR_BIT(TCCR1A,FOC1A);
 	CLEAR_BIT(TCCR1A,FOC1B);
