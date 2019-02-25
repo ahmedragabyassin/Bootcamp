@@ -3,31 +3,31 @@ Timer0-int.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000054e  00000000  00000000  00000074  2**1
+  0 .text         00000604  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000005c2  2**0
+  1 .data         00000000  00800060  00800060  00000678  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000017  00800060  00800060  000005c2  2**0
+  2 .bss          0000001a  00800060  00800060  00000678  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000005c2  2**0
+  3 .comment      00000030  00000000  00000000  00000678  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000005f4  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000006a8  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000110  00000000  00000000  00000630  2**0
+  5 .debug_aranges 00000110  00000000  00000000  000006e4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000e50  00000000  00000000  00000740  2**0
+  6 .debug_info   00000f6f  00000000  00000000  000007f4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000094e  00000000  00000000  00001590  2**0
+  7 .debug_abbrev 00000983  00000000  00000000  00001763  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000736  00000000  00000000  00001ede  2**0
+  8 .debug_line   00000783  00000000  00000000  000020e6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001fc  00000000  00000000  00002614  2**2
+  9 .debug_frame  00000218  00000000  00000000  0000286c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000004a2  00000000  00000000  00002810  2**0
+ 10 .debug_str    00000517  00000000  00000000  00002a84  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000622  00000000  00000000  00002cb2  2**0
+ 11 .debug_loc    000006f7  00000000  00000000  00002f9b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000c0  00000000  00000000  000032d4  2**0
+ 12 .debug_ranges 000000d8  00000000  00000000  00003692  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -43,7 +43,7 @@ Disassembly of section .text:
   1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
-  28:	0c 94 7c 02 	jmp	0x4f8	; 0x4f8 <__vector_10>
+  28:	0c 94 d7 02 	jmp	0x5ae	; 0x5ae <__vector_10>
   2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
   34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
@@ -73,11 +73,11 @@ Disassembly of section .text:
   68:	1d 92       	st	X+, r1
 
 0000006a <.do_clear_bss_start>:
-  6a:	a7 37       	cpi	r26, 0x77	; 119
+  6a:	aa 37       	cpi	r26, 0x7A	; 122
   6c:	b2 07       	cpc	r27, r18
   6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
   70:	0e 94 8a 01 	call	0x314	; 0x314 <main>
-  74:	0c 94 a5 02 	jmp	0x54a	; 0x54a <_exit>
+  74:	0c 94 00 03 	jmp	0x600	; 0x600 <_exit>
 
 00000078 <__bad_interrupt>:
   78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -518,485 +518,603 @@ int main(void)
 	/************************************************************************/
 	/* Add Tasks to queue                                                   */
 	/************************************************************************/
-	if (Scheduler_AddTask(task1,DELAY_SECOND)) /* add task 1*/
- 334:	60 ed       	ldi	r22, 0xD0	; 208
- 336:	77 e0       	ldi	r23, 0x07	; 7
- 338:	89 e1       	ldi	r24, 0x19	; 25
- 33a:	92 e0       	ldi	r25, 0x02	; 2
- 33c:	0e 94 29 02 	call	0x452	; 0x452 <Scheduler_AddTask>
- 340:	81 11       	cpse	r24, r1
- 342:	04 c0       	rjmp	.+8      	; 0x34c <main+0x38>
+	if (Scheduler_AddTask(task1,DELAY_HALF_SECOND,NUM_2)) /* add task 1*/
+ 334:	42 e0       	ldi	r20, 0x02	; 2
+ 336:	50 e0       	ldi	r21, 0x00	; 0
+ 338:	68 ee       	ldi	r22, 0xE8	; 232
+ 33a:	73 e0       	ldi	r23, 0x03	; 3
+ 33c:	85 e9       	ldi	r24, 0x95	; 149
+ 33e:	92 e0       	ldi	r25, 0x02	; 2
+ 340:	0e 94 1d 02 	call	0x43a	; 0x43a <Scheduler_AddTask>
+ 344:	89 2b       	or	r24, r25
+ 346:	21 f4       	brne	.+8      	; 0x350 <main+0x3c>
 	{
 		
 	}else
 	{
 		DIO_WritePin(LED3,HIGH);/* if task not added then there is an error here and led4 will blink */
- 344:	61 e0       	ldi	r22, 0x01	; 1
- 346:	8f e0       	ldi	r24, 0x0F	; 15
- 348:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
+ 348:	61 e0       	ldi	r22, 0x01	; 1
+ 34a:	8f e0       	ldi	r24, 0x0F	; 15
+ 34c:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
 	}
-	if (Scheduler_AddTask(task2,DELAY_HALF_SECOND)) /* add task 2*/
- 34c:	68 ee       	ldi	r22, 0xE8	; 232
- 34e:	73 e0       	ldi	r23, 0x03	; 3
- 350:	8d e1       	ldi	r24, 0x1D	; 29
- 352:	92 e0       	ldi	r25, 0x02	; 2
- 354:	0e 94 29 02 	call	0x452	; 0x452 <Scheduler_AddTask>
- 358:	81 11       	cpse	r24, r1
- 35a:	04 c0       	rjmp	.+8      	; 0x364 <main+0x50>
+	if (Scheduler_AddTask(task2,DELAY_750_MS,NUM_1)) /* add task 2*/
+ 350:	41 e0       	ldi	r20, 0x01	; 1
+ 352:	50 e0       	ldi	r21, 0x00	; 0
+ 354:	6c ed       	ldi	r22, 0xDC	; 220
+ 356:	75 e0       	ldi	r23, 0x05	; 5
+ 358:	89 e9       	ldi	r24, 0x99	; 153
+ 35a:	92 e0       	ldi	r25, 0x02	; 2
+ 35c:	0e 94 1d 02 	call	0x43a	; 0x43a <Scheduler_AddTask>
+ 360:	89 2b       	or	r24, r25
+ 362:	21 f4       	brne	.+8      	; 0x36c <main+0x58>
 	{
 		
 	}else
 	{
 		DIO_WritePin(LED3,HIGH);/* if task not added then there is an error here and led4 will blink */
- 35c:	61 e0       	ldi	r22, 0x01	; 1
- 35e:	8f e0       	ldi	r24, 0x0F	; 15
- 360:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
-	}
-	
-	if (Scheduler_AddTask(task3,DELAY_750_MS)) /* add task 3*/
- 364:	6c ed       	ldi	r22, 0xDC	; 220
- 366:	75 e0       	ldi	r23, 0x05	; 5
- 368:	81 e2       	ldi	r24, 0x21	; 33
- 36a:	92 e0       	ldi	r25, 0x02	; 2
- 36c:	0e 94 29 02 	call	0x452	; 0x452 <Scheduler_AddTask>
- 370:	81 11       	cpse	r24, r1
- 372:	04 c0       	rjmp	.+8      	; 0x37c <main+0x68>
-	{
-		
-	}else
-	{
-		DIO_WritePin(LED3,HIGH);/* if task not added then there is an error here and led4 will blink */
- 374:	61 e0       	ldi	r22, 0x01	; 1
- 376:	8f e0       	ldi	r24, 0x0F	; 15
- 378:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
+ 364:	61 e0       	ldi	r22, 0x01	; 1
+ 366:	8f e0       	ldi	r24, 0x0F	; 15
+ 368:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
 	}
 	
-	if (Scheduler_AddTask(task4,DELAY_750_MS)) /* add task 4*/
- 37c:	6c ed       	ldi	r22, 0xDC	; 220
- 37e:	75 e0       	ldi	r23, 0x05	; 5
- 380:	85 e2       	ldi	r24, 0x25	; 37
- 382:	92 e0       	ldi	r25, 0x02	; 2
- 384:	0e 94 29 02 	call	0x452	; 0x452 <Scheduler_AddTask>
- 388:	81 11       	cpse	r24, r1
- 38a:	04 c0       	rjmp	.+8      	; 0x394 <main+0x80>
+	if (Scheduler_AddTask(task3,DELAY_SECOND,NUM_0)) /* add task 3*/
+ 36c:	40 e0       	ldi	r20, 0x00	; 0
+ 36e:	50 e0       	ldi	r21, 0x00	; 0
+ 370:	60 ed       	ldi	r22, 0xD0	; 208
+ 372:	77 e0       	ldi	r23, 0x07	; 7
+ 374:	8d e9       	ldi	r24, 0x9D	; 157
+ 376:	92 e0       	ldi	r25, 0x02	; 2
+ 378:	0e 94 1d 02 	call	0x43a	; 0x43a <Scheduler_AddTask>
+ 37c:	89 2b       	or	r24, r25
+ 37e:	21 f4       	brne	.+8      	; 0x388 <main+0x74>
 	{
 		
 	}else
 	{
 		DIO_WritePin(LED3,HIGH);/* if task not added then there is an error here and led4 will blink */
- 38c:	61 e0       	ldi	r22, 0x01	; 1
- 38e:	8f e0       	ldi	r24, 0x0F	; 15
- 390:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
+ 380:	61 e0       	ldi	r22, 0x01	; 1
+ 382:	8f e0       	ldi	r24, 0x0F	; 15
+ 384:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
+	}
+	
+	if (Scheduler_AddTask(task4,DELAY_750_MS,NUM_3)) /* add task 4*/
+ 388:	43 e0       	ldi	r20, 0x03	; 3
+ 38a:	50 e0       	ldi	r21, 0x00	; 0
+ 38c:	6c ed       	ldi	r22, 0xDC	; 220
+ 38e:	75 e0       	ldi	r23, 0x05	; 5
+ 390:	81 ea       	ldi	r24, 0xA1	; 161
+ 392:	92 e0       	ldi	r25, 0x02	; 2
+ 394:	0e 94 1d 02 	call	0x43a	; 0x43a <Scheduler_AddTask>
+ 398:	89 2b       	or	r24, r25
+ 39a:	21 f4       	brne	.+8      	; 0x3a4 <main+0x90>
+	{
+		
+	}else
+	{
+		DIO_WritePin(LED3,HIGH);/* if task not added then there is an error here and led4 will blink */
+ 39c:	61 e0       	ldi	r22, 0x01	; 1
+ 39e:	8f e0       	ldi	r24, 0x0F	; 15
+ 3a0:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
 	}
 	/************************************************************************/
 	/* Init Scheduler                                                       */
 	/************************************************************************/
 	SchedulerInit();
- 394:	0e 94 d8 01 	call	0x3b0	; 0x3b0 <SchedulerInit>
+ 3a4:	0e 94 db 01 	call	0x3b6	; 0x3b6 <SchedulerInit>
 	
 	/************************************************************************/
 	/* Call Scheduler                                                       */
 	/************************************************************************/
 	SchedulerStart();
- 398:	0e 94 0a 02 	call	0x414	; 0x414 <SchedulerStart>
- 39c:	ff cf       	rjmp	.-2      	; 0x39c <main+0x88>
+ 3a8:	0e 94 0d 02 	call	0x41a	; 0x41a <SchedulerStart>
+ 3ac:	ff cf       	rjmp	.-2      	; 0x3ac <main+0x98>
 
-0000039e <Timer0_NewTimerTick>:
+000003ae <Timer0_NewTimerTick>:
 /* Description: Function called by the Timer Driver in the MCAL layer	*/
 /*				using the call back pointer								*/
 /************************************************************************/
 void Timer0_NewTimerTick(void)
 {
-	NewTickFlag = NUM_1; /* Set Flag that interrupt timer compare match occ*/
- 39e:	81 e0       	ldi	r24, 0x01	; 1
- 3a0:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <NewTickFlag>
-	TasksCount++;
- 3a4:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
- 3a8:	8f 5f       	subi	r24, 0xFF	; 255
- 3aa:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
- 3ae:	08 95       	ret
+	NewTickFlag = NUM_1; /* Set Flag that interrupt timer compare match OCR*/
+ 3ae:	81 e0       	ldi	r24, 0x01	; 1
+ 3b0:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <NewTickFlag>
+ 3b4:	08 95       	ret
 
-000003b0 <SchedulerInit>:
+000003b6 <SchedulerInit>:
 /* return: void,                                                        */
 /* Description: called in main 										    */
 /************************************************************************/
 void SchedulerInit(void)
 {
 	Interrupts_init(); /* initialize global interrupts */
- 3b0:	0e 94 7a 02 	call	0x4f4	; 0x4f4 <Interrupts_init>
+ 3b6:	0e 94 d5 02 	call	0x5aa	; 0x5aa <Interrupts_init>
 	TimerInit();		/* init timer */
- 3b4:	0e 94 4f 02 	call	0x49e	; 0x49e <TimerInit>
+ 3ba:	0e 94 aa 02 	call	0x554	; 0x554 <TimerInit>
 	/************************************************************************/
 	/* Set the Call Back function call to Scheduler_New_Timer_Tick			*/
 	/* this function will be called every Timer0 Compare Interrupt(ms)		*/
 	/************************************************************************/ 
 	Timer0_SetCallBack(Timer0_NewTimerTick);
- 3b8:	8f ec       	ldi	r24, 0xCF	; 207
- 3ba:	91 e0       	ldi	r25, 0x01	; 1
- 3bc:	0e 94 4a 02 	call	0x494	; 0x494 <Timer0_SetCallBack>
- 3c0:	08 95       	ret
+ 3be:	87 ed       	ldi	r24, 0xD7	; 215
+ 3c0:	91 e0       	ldi	r25, 0x01	; 1
+ 3c2:	0e 94 a5 02 	call	0x54a	; 0x54a <Timer0_SetCallBack>
+ 3c6:	08 95       	ret
 
-000003c2 <prefilled>:
+000003c8 <prefilled>:
 /* @param: arr_size														*/
 /* return: void,                                                        */
 /* Description: run tasks												*/
 /************************************************************************/
 void prefilled(vTask TaskArr[], uint8 arr_size)
 {
- 3c2:	ef 92       	push	r14
- 3c4:	ff 92       	push	r15
- 3c6:	0f 93       	push	r16
- 3c8:	1f 93       	push	r17
- 3ca:	cf 93       	push	r28
- 3cc:	df 93       	push	r29
+ 3c8:	ef 92       	push	r14
+ 3ca:	ff 92       	push	r15
+ 3cc:	0f 93       	push	r16
+ 3ce:	1f 93       	push	r17
+ 3d0:	cf 93       	push	r28
+ 3d2:	df 93       	push	r29
 	for (uint8 i =NUM_0; i<arr_size; i++) /* for loop to check for all tasks in the array */
- 3ce:	66 23       	and	r22, r22
- 3d0:	d1 f0       	breq	.+52     	; 0x406 <__LOCK_REGION_LENGTH__+0x6>
- 3d2:	06 2f       	mov	r16, r22
- 3d4:	c8 2f       	mov	r28, r24
- 3d6:	d9 2f       	mov	r29, r25
- 3d8:	10 e0       	ldi	r17, 0x00	; 0
- 3da:	7e 01       	movw	r14, r28
+ 3d4:	66 23       	and	r22, r22
+ 3d6:	d1 f0       	breq	.+52     	; 0x40c <__LOCK_REGION_LENGTH__+0xc>
+ 3d8:	06 2f       	mov	r16, r22
+ 3da:	c8 2f       	mov	r28, r24
+ 3dc:	d9 2f       	mov	r29, r25
+ 3de:	10 e0       	ldi	r17, 0x00	; 0
+ 3e0:	7e 01       	movw	r14, r28
 	{	/* if the remaining task in task is zero then do the task now and load the periodicity in remaining again */
 		if (TaskArr[i].remaining_ticks == NUM_0) 
- 3dc:	8c 81       	ldd	r24, Y+4	; 0x04
- 3de:	9d 81       	ldd	r25, Y+5	; 0x05
- 3e0:	89 2b       	or	r24, r25
- 3e2:	39 f4       	brne	.+14     	; 0x3f2 <prefilled+0x30>
+ 3e2:	8c 81       	ldd	r24, Y+4	; 0x04
+ 3e4:	9d 81       	ldd	r25, Y+5	; 0x05
+ 3e6:	89 2b       	or	r24, r25
+ 3e8:	39 f4       	brne	.+14     	; 0x3f8 <prefilled+0x30>
 		{
 			TaskArr[i].task();/* call the task */
- 3e4:	e8 81       	ld	r30, Y
- 3e6:	f9 81       	ldd	r31, Y+1	; 0x01
- 3e8:	09 95       	icall
+ 3ea:	e8 81       	ld	r30, Y
+ 3ec:	f9 81       	ldd	r31, Y+1	; 0x01
+ 3ee:	09 95       	icall
 			TaskArr[i].remaining_ticks = TaskArr[i].task_periodicity; /*load the periodicity in remaining again to do the task again */
- 3ea:	8a 81       	ldd	r24, Y+2	; 0x02
- 3ec:	9b 81       	ldd	r25, Y+3	; 0x03
- 3ee:	9d 83       	std	Y+5, r25	; 0x05
- 3f0:	8c 83       	std	Y+4, r24	; 0x04
+ 3f0:	8a 81       	ldd	r24, Y+2	; 0x02
+ 3f2:	9b 81       	ldd	r25, Y+3	; 0x03
+ 3f4:	9d 83       	std	Y+5, r25	; 0x05
+ 3f6:	8c 83       	std	Y+4, r24	; 0x04
 		}
 		TaskArr[i].remaining_ticks--; /* decrement the remaining ticks */
- 3f2:	f7 01       	movw	r30, r14
- 3f4:	84 81       	ldd	r24, Z+4	; 0x04
- 3f6:	95 81       	ldd	r25, Z+5	; 0x05
- 3f8:	01 97       	sbiw	r24, 0x01	; 1
- 3fa:	95 83       	std	Z+5, r25	; 0x05
- 3fc:	84 83       	std	Z+4, r24	; 0x04
+ 3f8:	f7 01       	movw	r30, r14
+ 3fa:	84 81       	ldd	r24, Z+4	; 0x04
+ 3fc:	95 81       	ldd	r25, Z+5	; 0x05
+ 3fe:	01 97       	sbiw	r24, 0x01	; 1
+ 400:	95 83       	std	Z+5, r25	; 0x05
+ 402:	84 83       	std	Z+4, r24	; 0x04
 /* return: void,                                                        */
 /* Description: run tasks												*/
 /************************************************************************/
 void prefilled(vTask TaskArr[], uint8 arr_size)
 {
 	for (uint8 i =NUM_0; i<arr_size; i++) /* for loop to check for all tasks in the array */
- 3fe:	1f 5f       	subi	r17, 0xFF	; 255
- 400:	26 96       	adiw	r28, 0x06	; 6
- 402:	01 13       	cpse	r16, r17
- 404:	ea cf       	rjmp	.-44     	; 0x3da <prefilled+0x18>
+ 404:	1f 5f       	subi	r17, 0xFF	; 255
+ 406:	27 96       	adiw	r28, 0x07	; 7
+ 408:	01 13       	cpse	r16, r17
+ 40a:	ea cf       	rjmp	.-44     	; 0x3e0 <prefilled+0x18>
 			TaskArr[i].task();/* call the task */
 			TaskArr[i].remaining_ticks = TaskArr[i].task_periodicity; /*load the periodicity in remaining again to do the task again */
 		}
 		TaskArr[i].remaining_ticks--; /* decrement the remaining ticks */
 	}
 }
- 406:	df 91       	pop	r29
- 408:	cf 91       	pop	r28
- 40a:	1f 91       	pop	r17
- 40c:	0f 91       	pop	r16
- 40e:	ff 90       	pop	r15
- 410:	ef 90       	pop	r14
- 412:	08 95       	ret
+ 40c:	df 91       	pop	r29
+ 40e:	cf 91       	pop	r28
+ 410:	1f 91       	pop	r17
+ 412:	0f 91       	pop	r16
+ 414:	ff 90       	pop	r15
+ 416:	ef 90       	pop	r14
+ 418:	08 95       	ret
 
-00000414 <SchedulerStart>:
+0000041a <SchedulerStart>:
 /* return: void,														*/
 /* Description: start the timer and scheduling							*/
 /************************************************************************/
 void SchedulerStart(void)
 {
 		TimerStart(OS_TICK_INTERVAL_MSEC); /* start timer */
- 414:	8c e7       	ldi	r24, 0x7C	; 124
- 416:	0e 94 65 02 	call	0x4ca	; 0x4ca <TimerStart>
+ 41a:	8c e7       	ldi	r24, 0x7C	; 124
+ 41c:	0e 94 c0 02 	call	0x580	; 0x580 <TimerStart>
 		while(NUM_1)
 		{
 			if(NewTickFlag == NUM_1) /* check if flag is set */
- 41a:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <NewTickFlag>
- 41e:	81 30       	cpi	r24, 0x01	; 1
- 420:	e1 f7       	brne	.-8      	; 0x41a <SchedulerStart+0x6>
+ 420:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <NewTickFlag>
+ 424:	81 30       	cpi	r24, 0x01	; 1
+ 426:	e1 f7       	brne	.-8      	; 0x420 <SchedulerStart+0x6>
 			{
-				prefilled(TaskArr,NUMBER_OF_TASKS); /* call the function that do task */
- 422:	63 e0       	ldi	r22, 0x03	; 3
- 424:	85 e6       	ldi	r24, 0x65	; 101
- 426:	90 e0       	ldi	r25, 0x00	; 0
- 428:	0e 94 e1 01 	call	0x3c2	; 0x3c2 <prefilled>
+				prefilled(TaskArr,TasksCount); /* call the function that do task */
+ 428:	60 91 61 00 	lds	r22, 0x0061	; 0x800061 <TasksCount>
+ 42c:	85 e6       	ldi	r24, 0x65	; 101
+ 42e:	90 e0       	ldi	r25, 0x00	; 0
+ 430:	0e 94 e4 01 	call	0x3c8	; 0x3c8 <prefilled>
 				NewTickFlag = NUM_0 ; /* clear the flag */
- 42c:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <NewTickFlag>
- 430:	f4 cf       	rjmp	.-24     	; 0x41a <SchedulerStart+0x6>
+ 434:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <NewTickFlag>
+ 438:	f3 cf       	rjmp	.-26     	; 0x420 <SchedulerStart+0x6>
 
-00000432 <task1>:
+0000043a <Scheduler_AddTask>:
+/* @param: task_periodicity,		                                    */
+/* return: true or false,                                               */
+/* Description: Add task to array of pointer to tasks                   */
+/************************************************************************/
+uint8 Scheduler_AddTask(tasktype task, uint16 task_periodicity, uint8 task_priority)
+{
+ 43a:	ff 92       	push	r15
+ 43c:	0f 93       	push	r16
+ 43e:	1f 93       	push	r17
+ 440:	cf 93       	push	r28
+ 442:	df 93       	push	r29
+ 444:	8c 01       	movw	r16, r24
+	static uint8 task_added = NUM_0; /* static local variable to maintain its value to check if a new task added */
+	if (task_added < NUMBER_OF_TASKS ) /* check if added tasks is less than the max number of tasks */
+ 446:	f0 90 60 00 	lds	r15, 0x0060	; 0x800060 <_edata>
+ 44a:	82 e0       	ldi	r24, 0x02	; 2
+ 44c:	8f 15       	cp	r24, r15
+ 44e:	08 f4       	brcc	.+2      	; 0x452 <Scheduler_AddTask+0x18>
+ 450:	65 c0       	rjmp	.+202    	; 0x51c <Scheduler_AddTask+0xe2>
+	{
+		for (uint8 task_index = NUM_0; task_index <= TasksCount; task_index++)
+ 452:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <TasksCount>
+ 456:	50 e0       	ldi	r21, 0x00	; 0
+ 458:	49 c0       	rjmp	.+146    	; 0x4ec <Scheduler_AddTask+0xb2>
+		{
+			for(uint8 task_index_j = task_index; task_index_j <= TasksCount; task_index_j++)
+ 45a:	95 2f       	mov	r25, r21
+			if (TaskArr[task_index_j].task_periodicity > TaskArr[task_index_j + NUM_1].task_periodicity )
+ 45c:	29 2f       	mov	r18, r25
+ 45e:	30 e0       	ldi	r19, 0x00	; 0
+ 460:	e9 01       	movw	r28, r18
+ 462:	21 96       	adiw	r28, 0x01	; 1
+ 464:	d9 01       	movw	r26, r18
+ 466:	aa 0f       	add	r26, r26
+ 468:	bb 1f       	adc	r27, r27
+ 46a:	aa 0f       	add	r26, r26
+ 46c:	bb 1f       	adc	r27, r27
+ 46e:	aa 0f       	add	r26, r26
+ 470:	bb 1f       	adc	r27, r27
+ 472:	a2 1b       	sub	r26, r18
+ 474:	b3 0b       	sbc	r27, r19
+ 476:	ab 59       	subi	r26, 0x9B	; 155
+ 478:	bf 4f       	sbci	r27, 0xFF	; 255
+ 47a:	fe 01       	movw	r30, r28
+ 47c:	ee 0f       	add	r30, r30
+ 47e:	ff 1f       	adc	r31, r31
+ 480:	ee 0f       	add	r30, r30
+ 482:	ff 1f       	adc	r31, r31
+ 484:	ee 0f       	add	r30, r30
+ 486:	ff 1f       	adc	r31, r31
+ 488:	ec 1b       	sub	r30, r28
+ 48a:	fd 0b       	sbc	r31, r29
+ 48c:	eb 59       	subi	r30, 0x9B	; 155
+ 48e:	ff 4f       	sbci	r31, 0xFF	; 255
+ 490:	12 96       	adiw	r26, 0x02	; 2
+ 492:	0d 90       	ld	r0, X+
+ 494:	bc 91       	ld	r27, X
+ 496:	a0 2d       	mov	r26, r0
+ 498:	02 80       	ldd	r0, Z+2	; 0x02
+ 49a:	f3 81       	ldd	r31, Z+3	; 0x03
+ 49c:	e0 2d       	mov	r30, r0
+ 49e:	ea 17       	cp	r30, r26
+ 4a0:	fb 07       	cpc	r31, r27
+ 4a2:	e8 f4       	brcc	.+58     	; 0x4de <Scheduler_AddTask+0xa4>
+			{
+				uint8 Temp_taskPriority	= TaskArr[task_index_j + NUM_1].task_Priority;
+ 4a4:	de 01       	movw	r26, r28
+ 4a6:	aa 0f       	add	r26, r26
+ 4a8:	bb 1f       	adc	r27, r27
+ 4aa:	aa 0f       	add	r26, r26
+ 4ac:	bb 1f       	adc	r27, r27
+ 4ae:	aa 0f       	add	r26, r26
+ 4b0:	bb 1f       	adc	r27, r27
+ 4b2:	ac 1b       	sub	r26, r28
+ 4b4:	bd 0b       	sbc	r27, r29
+ 4b6:	ab 59       	subi	r26, 0x9B	; 155
+ 4b8:	bf 4f       	sbci	r27, 0xFF	; 255
+ 4ba:	16 96       	adiw	r26, 0x06	; 6
+ 4bc:	cc 91       	ld	r28, X
+ 4be:	16 97       	sbiw	r26, 0x06	; 6
+				TaskArr[task_index_j + NUM_1].task_Priority = TaskArr[task_index_j].task_Priority;
+ 4c0:	f9 01       	movw	r30, r18
+ 4c2:	ee 0f       	add	r30, r30
+ 4c4:	ff 1f       	adc	r31, r31
+ 4c6:	ee 0f       	add	r30, r30
+ 4c8:	ff 1f       	adc	r31, r31
+ 4ca:	ee 0f       	add	r30, r30
+ 4cc:	ff 1f       	adc	r31, r31
+ 4ce:	e2 1b       	sub	r30, r18
+ 4d0:	f3 0b       	sbc	r31, r19
+ 4d2:	eb 59       	subi	r30, 0x9B	; 155
+ 4d4:	ff 4f       	sbci	r31, 0xFF	; 255
+ 4d6:	26 81       	ldd	r18, Z+6	; 0x06
+ 4d8:	16 96       	adiw	r26, 0x06	; 6
+ 4da:	2c 93       	st	X, r18
+				TaskArr[task_index_j].task_Priority = Temp_taskPriority;
+ 4dc:	c6 83       	std	Z+6, r28	; 0x06
+	static uint8 task_added = NUM_0; /* static local variable to maintain its value to check if a new task added */
+	if (task_added < NUMBER_OF_TASKS ) /* check if added tasks is less than the max number of tasks */
+	{
+		for (uint8 task_index = NUM_0; task_index <= TasksCount; task_index++)
+		{
+			for(uint8 task_index_j = task_index; task_index_j <= TasksCount; task_index_j++)
+ 4de:	9f 5f       	subi	r25, 0xFF	; 255
+ 4e0:	89 17       	cp	r24, r25
+ 4e2:	08 f0       	brcs	.+2      	; 0x4e6 <Scheduler_AddTask+0xac>
+ 4e4:	bb cf       	rjmp	.-138    	; 0x45c <Scheduler_AddTask+0x22>
+uint8 Scheduler_AddTask(tasktype task, uint16 task_periodicity, uint8 task_priority)
+{
+	static uint8 task_added = NUM_0; /* static local variable to maintain its value to check if a new task added */
+	if (task_added < NUMBER_OF_TASKS ) /* check if added tasks is less than the max number of tasks */
+	{
+		for (uint8 task_index = NUM_0; task_index <= TasksCount; task_index++)
+ 4e6:	5f 5f       	subi	r21, 0xFF	; 255
+ 4e8:	85 17       	cp	r24, r21
+ 4ea:	20 f0       	brcs	.+8      	; 0x4f4 <Scheduler_AddTask+0xba>
+		{
+			for(uint8 task_index_j = task_index; task_index_j <= TasksCount; task_index_j++)
+ 4ec:	85 17       	cp	r24, r21
+ 4ee:	08 f0       	brcs	.+2      	; 0x4f2 <Scheduler_AddTask+0xb8>
+ 4f0:	b4 cf       	rjmp	.-152    	; 0x45a <Scheduler_AddTask+0x20>
+ 4f2:	f9 cf       	rjmp	.-14     	; 0x4e6 <Scheduler_AddTask+0xac>
+				uint8 Temp_taskPriority	= TaskArr[task_index_j + NUM_1].task_Priority;
+				TaskArr[task_index_j + NUM_1].task_Priority = TaskArr[task_index_j].task_Priority;
+				TaskArr[task_index_j].task_Priority = Temp_taskPriority;
+			}
+		}
+		TaskArr[task_added].task = task; /* add task */
+ 4f4:	97 e0       	ldi	r25, 0x07	; 7
+ 4f6:	f9 9e       	mul	r15, r25
+ 4f8:	f0 01       	movw	r30, r0
+ 4fa:	11 24       	eor	r1, r1
+ 4fc:	eb 59       	subi	r30, 0x9B	; 155
+ 4fe:	ff 4f       	sbci	r31, 0xFF	; 255
+ 500:	11 83       	std	Z+1, r17	; 0x01
+ 502:	00 83       	st	Z, r16
+		TaskArr[task_added].task_periodicity = task_periodicity; /* add periodicity */
+ 504:	73 83       	std	Z+3, r23	; 0x03
+ 506:	62 83       	std	Z+2, r22	; 0x02
+		TaskArr[task_added].remaining_ticks  = task_periodicity; /* load the periodicity in the remaining ticks */
+ 508:	75 83       	std	Z+5, r23	; 0x05
+ 50a:	64 83       	std	Z+4, r22	; 0x04
+		TaskArr[task_added].task_Priority   = task_priority; /* load the periodicity in the remaining ticks */
+ 50c:	46 83       	std	Z+6, r20	; 0x06
+		task_added++; /* increment the task added */
+ 50e:	f3 94       	inc	r15
+ 510:	f0 92 60 00 	sts	0x0060, r15	; 0x800060 <_edata>
+		TasksCount++; /*increment tasks*/
+ 514:	8f 5f       	subi	r24, 0xFF	; 255
+ 516:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <TasksCount>
+	}
+	else
+	return FALSE; /* if there is no place for new task return false and report error */
+}
+ 51a:	01 c0       	rjmp	.+2      	; 0x51e <Scheduler_AddTask+0xe4>
+		TaskArr[task_added].task_Priority   = task_priority; /* load the periodicity in the remaining ticks */
+		task_added++; /* increment the task added */
+		TasksCount++; /*increment tasks*/
+	}
+	else
+	return FALSE; /* if there is no place for new task return false and report error */
+ 51c:	80 e0       	ldi	r24, 0x00	; 0
+}
+ 51e:	df 91       	pop	r29
+ 520:	cf 91       	pop	r28
+ 522:	1f 91       	pop	r17
+ 524:	0f 91       	pop	r16
+ 526:	ff 90       	pop	r15
+ 528:	08 95       	ret
+
+0000052a <task1>:
 /* return: void,                                                        */
 /* Description: Toggle LED0 after half second                           */
 /************************************************************************/
 void task1(void)
 {
 	DIO_TogglePin(LED0); /* Toggle LED0 */
- 432:	8c e0       	ldi	r24, 0x0C	; 12
- 434:	0e 94 48 01 	call	0x290	; 0x290 <DIO_TogglePin>
- 438:	08 95       	ret
+ 52a:	8c e0       	ldi	r24, 0x0C	; 12
+ 52c:	0e 94 48 01 	call	0x290	; 0x290 <DIO_TogglePin>
+ 530:	08 95       	ret
 
-0000043a <task2>:
+00000532 <task2>:
 /* return: void,                                                        */
 /* Description: Toggle LED1 after 750 MS                                 */
 /************************************************************************/
 void task2(void)
 {
 	DIO_TogglePin(LED1); /* Toggle LED1 */
- 43a:	8d e0       	ldi	r24, 0x0D	; 13
- 43c:	0e 94 48 01 	call	0x290	; 0x290 <DIO_TogglePin>
- 440:	08 95       	ret
+ 532:	8d e0       	ldi	r24, 0x0D	; 13
+ 534:	0e 94 48 01 	call	0x290	; 0x290 <DIO_TogglePin>
+ 538:	08 95       	ret
 
-00000442 <task3>:
+0000053a <task3>:
 /* return: void,                                                        */
 /* Description: Toggle LED2 after one second                             */
 /************************************************************************/
 void task3(void)
 {
 	DIO_TogglePin(LED2);/* Toggle LED2 */
- 442:	8e e0       	ldi	r24, 0x0E	; 14
- 444:	0e 94 48 01 	call	0x290	; 0x290 <DIO_TogglePin>
- 448:	08 95       	ret
+ 53a:	8e e0       	ldi	r24, 0x0E	; 14
+ 53c:	0e 94 48 01 	call	0x290	; 0x290 <DIO_TogglePin>
+ 540:	08 95       	ret
 
-0000044a <task4>:
+00000542 <task4>:
 /* return: void,                                                        */
 /* Description: Toggle LED4 after one second                            */
 /************************************************************************/
 void task4(void)
 {
 		DIO_TogglePin(LED3); /* Toggle LED4 */
- 44a:	8f e0       	ldi	r24, 0x0F	; 15
- 44c:	0e 94 48 01 	call	0x290	; 0x290 <DIO_TogglePin>
- 450:	08 95       	ret
+ 542:	8f e0       	ldi	r24, 0x0F	; 15
+ 544:	0e 94 48 01 	call	0x290	; 0x290 <DIO_TogglePin>
+ 548:	08 95       	ret
 
-00000452 <Scheduler_AddTask>:
-/* @param: task_periodicity,		                                    */
-/* return: true or false,                                               */
-/* Description: Add task to array of pointer to tasks                   */
-/************************************************************************/
-uint8 Scheduler_AddTask(tasktype task, uint16 task_periodicity)
-{
- 452:	ac 01       	movw	r20, r24
-	static uint8 task_added = NUM_0; /* static local variable to maintain its value to check if a new task added */
-	if (task_added < NUMBER_OF_TASKS ) /* check if added tasks is less than the max number of tasks */
- 454:	90 91 62 00 	lds	r25, 0x0062	; 0x800062 <task_added.1623>
- 458:	93 30       	cpi	r25, 0x03	; 3
- 45a:	d0 f4       	brcc	.+52     	; 0x490 <Scheduler_AddTask+0x3e>
-	{
-		TaskArr[task_added].task = task; /* add task */
- 45c:	29 2f       	mov	r18, r25
- 45e:	30 e0       	ldi	r19, 0x00	; 0
- 460:	f9 01       	movw	r30, r18
- 462:	ee 0f       	add	r30, r30
- 464:	ff 1f       	adc	r31, r31
- 466:	df 01       	movw	r26, r30
- 468:	a2 0f       	add	r26, r18
- 46a:	b3 1f       	adc	r27, r19
- 46c:	aa 0f       	add	r26, r26
- 46e:	bb 1f       	adc	r27, r27
- 470:	ab 59       	subi	r26, 0x9B	; 155
- 472:	bf 4f       	sbci	r27, 0xFF	; 255
- 474:	11 96       	adiw	r26, 0x01	; 1
- 476:	5c 93       	st	X, r21
- 478:	4e 93       	st	-X, r20
-		TaskArr[task_added].task_periodicity = task_periodicity; /* add periodicity */
- 47a:	13 96       	adiw	r26, 0x03	; 3
- 47c:	7c 93       	st	X, r23
- 47e:	6e 93       	st	-X, r22
- 480:	12 97       	sbiw	r26, 0x02	; 2
-		TaskArr[task_added].remaining_ticks  = task_periodicity; /* load the periodicity in the remaining ticks */
- 482:	fd 01       	movw	r30, r26
- 484:	75 83       	std	Z+5, r23	; 0x05
- 486:	64 83       	std	Z+4, r22	; 0x04
-		task_added++; /* increment the task added */
- 488:	9f 5f       	subi	r25, 0xFF	; 255
- 48a:	90 93 62 00 	sts	0x0062, r25	; 0x800062 <task_added.1623>
-	}
-	else
-		return FALSE; /* if there is no place for new task return false and report error */
-}
- 48e:	08 95       	ret
-		TaskArr[task_added].task_periodicity = task_periodicity; /* add periodicity */
-		TaskArr[task_added].remaining_ticks  = task_periodicity; /* load the periodicity in the remaining ticks */
-		task_added++; /* increment the task added */
-	}
-	else
-		return FALSE; /* if there is no place for new task return false and report error */
- 490:	80 e0       	ldi	r24, 0x00	; 0
-}
- 492:	08 95       	ret
-
-00000494 <Timer0_SetCallBack>:
+0000054a <Timer0_SetCallBack>:
 /* return: void,												                 */
 /* Description: Points to the required function in the OS upper layer Scheduler  */
 /*********************************************************************************/
 void Timer0_SetCallBack(void(*Ptr2Func)(void))
 {
 	G_Timer0_Call_Back_Ptr = Ptr2Func; /*add the function to pointer to function */
- 494:	90 93 64 00 	sts	0x0064, r25	; 0x800064 <G_Timer0_Call_Back_Ptr+0x1>
- 498:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <G_Timer0_Call_Back_Ptr>
- 49c:	08 95       	ret
+ 54a:	90 93 64 00 	sts	0x0064, r25	; 0x800064 <G_Timer0_Call_Back_Ptr+0x1>
+ 54e:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <G_Timer0_Call_Back_Ptr>
+ 552:	08 95       	ret
 
-0000049e <TimerInit>:
+00000554 <TimerInit>:
 void TimerInit(void)
 {
 	/************************************************************************/
 	/* Config Timer0 in CTC mode                                            */
 	/************************************************************************/
 	SET_BIT(TCCR0,WGM01);
- 49e:	83 b7       	in	r24, 0x33	; 51
- 4a0:	88 60       	ori	r24, 0x08	; 8
- 4a2:	83 bf       	out	0x33, r24	; 51
+ 554:	83 b7       	in	r24, 0x33	; 51
+ 556:	88 60       	ori	r24, 0x08	; 8
+ 558:	83 bf       	out	0x33, r24	; 51
 	CLEAR_BIT(TCCR0,WGM00);
- 4a4:	83 b7       	in	r24, 0x33	; 51
- 4a6:	8f 7b       	andi	r24, 0xBF	; 191
- 4a8:	83 bf       	out	0x33, r24	; 51
+ 55a:	83 b7       	in	r24, 0x33	; 51
+ 55c:	8f 7b       	andi	r24, 0xBF	; 191
+ 55e:	83 bf       	out	0x33, r24	; 51
 	
 	
 	/************************************************************************/
 	/* Clear TCNT0 and set OCR0                                             */
 	/************************************************************************/
 	TCNT0 = TCNT0_INITIAL_VALUE;
- 4aa:	12 be       	out	0x32, r1	; 50
+ 560:	12 be       	out	0x32, r1	; 50
 	OCR0  = OCR0_VALUE;
- 4ac:	8c e7       	ldi	r24, 0x7C	; 124
- 4ae:	8c bf       	out	0x3c, r24	; 60
+ 562:	8c e7       	ldi	r24, 0x7C	; 124
+ 564:	8c bf       	out	0x3c, r24	; 60
 	
 	/************************************************************************/
 	/* Set Prescaler to 64 so we can get 1ms every 250 count in OCR0        */
 	/************************************************************************/
 	SET_BIT(TCCR0,CS00);
- 4b0:	83 b7       	in	r24, 0x33	; 51
- 4b2:	81 60       	ori	r24, 0x01	; 1
- 4b4:	83 bf       	out	0x33, r24	; 51
+ 566:	83 b7       	in	r24, 0x33	; 51
+ 568:	81 60       	ori	r24, 0x01	; 1
+ 56a:	83 bf       	out	0x33, r24	; 51
 	SET_BIT(TCCR0,CS01);
- 4b6:	83 b7       	in	r24, 0x33	; 51
- 4b8:	82 60       	ori	r24, 0x02	; 2
- 4ba:	83 bf       	out	0x33, r24	; 51
+ 56c:	83 b7       	in	r24, 0x33	; 51
+ 56e:	82 60       	ori	r24, 0x02	; 2
+ 570:	83 bf       	out	0x33, r24	; 51
 	CLEAR_BIT(TCCR0,CS02);
- 4bc:	83 b7       	in	r24, 0x33	; 51
- 4be:	8b 7f       	andi	r24, 0xFB	; 251
- 4c0:	83 bf       	out	0x33, r24	; 51
+ 572:	83 b7       	in	r24, 0x33	; 51
+ 574:	8b 7f       	andi	r24, 0xFB	; 251
+ 576:	83 bf       	out	0x33, r24	; 51
 	SET_BIT(TIMSK,OCIE0); /* enable interrupt when compare match occur */
- 4c2:	89 b7       	in	r24, 0x39	; 57
- 4c4:	82 60       	ori	r24, 0x02	; 2
- 4c6:	89 bf       	out	0x39, r24	; 57
- 4c8:	08 95       	ret
+ 578:	89 b7       	in	r24, 0x39	; 57
+ 57a:	82 60       	ori	r24, 0x02	; 2
+ 57c:	89 bf       	out	0x39, r24	; 57
+ 57e:	08 95       	ret
 
-000004ca <TimerStart>:
+00000580 <TimerStart>:
 void TimerStart(uint8 OCR)
 {
 	/************************************************************************/
 	/* Config Timer0 in CTC mode                                            */
 	/************************************************************************/
 	SET_BIT(TCCR0,WGM01);
- 4ca:	93 b7       	in	r25, 0x33	; 51
- 4cc:	98 60       	ori	r25, 0x08	; 8
- 4ce:	93 bf       	out	0x33, r25	; 51
+ 580:	93 b7       	in	r25, 0x33	; 51
+ 582:	98 60       	ori	r25, 0x08	; 8
+ 584:	93 bf       	out	0x33, r25	; 51
 	CLEAR_BIT(TCCR0,WGM00);
- 4d0:	93 b7       	in	r25, 0x33	; 51
- 4d2:	9f 7b       	andi	r25, 0xBF	; 191
- 4d4:	93 bf       	out	0x33, r25	; 51
+ 586:	93 b7       	in	r25, 0x33	; 51
+ 588:	9f 7b       	andi	r25, 0xBF	; 191
+ 58a:	93 bf       	out	0x33, r25	; 51
 	
 	
 	/************************************************************************/
 	/* Clear TCNT0 and set OCR0                                             */
 	/************************************************************************/
 	TCNT0 = TCNT0_INITIAL_VALUE;
- 4d6:	12 be       	out	0x32, r1	; 50
+ 58c:	12 be       	out	0x32, r1	; 50
 	OCR0  = OCR;
- 4d8:	8c bf       	out	0x3c, r24	; 60
+ 58e:	8c bf       	out	0x3c, r24	; 60
 	
 	/************************************************************************/
 	/* Set Prescaler to 64 so we can get 1ms every 250 count in OCR0        */
 	/************************************************************************/
 	SET_BIT(TCCR0,CS00);
- 4da:	83 b7       	in	r24, 0x33	; 51
- 4dc:	81 60       	ori	r24, 0x01	; 1
- 4de:	83 bf       	out	0x33, r24	; 51
+ 590:	83 b7       	in	r24, 0x33	; 51
+ 592:	81 60       	ori	r24, 0x01	; 1
+ 594:	83 bf       	out	0x33, r24	; 51
 	SET_BIT(TCCR0,CS01);
- 4e0:	83 b7       	in	r24, 0x33	; 51
- 4e2:	82 60       	ori	r24, 0x02	; 2
- 4e4:	83 bf       	out	0x33, r24	; 51
+ 596:	83 b7       	in	r24, 0x33	; 51
+ 598:	82 60       	ori	r24, 0x02	; 2
+ 59a:	83 bf       	out	0x33, r24	; 51
 	CLEAR_BIT(TCCR0,CS02);
- 4e6:	83 b7       	in	r24, 0x33	; 51
- 4e8:	8b 7f       	andi	r24, 0xFB	; 251
- 4ea:	83 bf       	out	0x33, r24	; 51
+ 59c:	83 b7       	in	r24, 0x33	; 51
+ 59e:	8b 7f       	andi	r24, 0xFB	; 251
+ 5a0:	83 bf       	out	0x33, r24	; 51
 	SET_BIT(TIMSK,OCIE0); /* enable interrupt when compare match occur */
- 4ec:	89 b7       	in	r24, 0x39	; 57
- 4ee:	82 60       	ori	r24, 0x02	; 2
- 4f0:	89 bf       	out	0x39, r24	; 57
- 4f2:	08 95       	ret
+ 5a2:	89 b7       	in	r24, 0x39	; 57
+ 5a4:	82 60       	ori	r24, 0x02	; 2
+ 5a6:	89 bf       	out	0x39, r24	; 57
+ 5a8:	08 95       	ret
 
-000004f4 <Interrupts_init>:
+000005aa <Interrupts_init>:
 /* return: void,                                                        */
 /* Description: Init interrupts                                         */
 /************************************************************************/
 void Interrupts_init(void)
 {
 	sei(); /* enable global interrupt */
- 4f4:	78 94       	sei
- 4f6:	08 95       	ret
+ 5aa:	78 94       	sei
+ 5ac:	08 95       	ret
 
-000004f8 <__vector_10>:
+000005ae <__vector_10>:
 
 /************************************************************************/
 /* Interrupt to handle when compare match occur                        */
 /************************************************************************/
 ISR(TIMER0_COMP_vect)
 {
- 4f8:	1f 92       	push	r1
- 4fa:	0f 92       	push	r0
- 4fc:	0f b6       	in	r0, 0x3f	; 63
- 4fe:	0f 92       	push	r0
- 500:	11 24       	eor	r1, r1
- 502:	2f 93       	push	r18
- 504:	3f 93       	push	r19
- 506:	4f 93       	push	r20
- 508:	5f 93       	push	r21
- 50a:	6f 93       	push	r22
- 50c:	7f 93       	push	r23
- 50e:	8f 93       	push	r24
- 510:	9f 93       	push	r25
- 512:	af 93       	push	r26
- 514:	bf 93       	push	r27
- 516:	ef 93       	push	r30
- 518:	ff 93       	push	r31
+ 5ae:	1f 92       	push	r1
+ 5b0:	0f 92       	push	r0
+ 5b2:	0f b6       	in	r0, 0x3f	; 63
+ 5b4:	0f 92       	push	r0
+ 5b6:	11 24       	eor	r1, r1
+ 5b8:	2f 93       	push	r18
+ 5ba:	3f 93       	push	r19
+ 5bc:	4f 93       	push	r20
+ 5be:	5f 93       	push	r21
+ 5c0:	6f 93       	push	r22
+ 5c2:	7f 93       	push	r23
+ 5c4:	8f 93       	push	r24
+ 5c6:	9f 93       	push	r25
+ 5c8:	af 93       	push	r26
+ 5ca:	bf 93       	push	r27
+ 5cc:	ef 93       	push	r30
+ 5ce:	ff 93       	push	r31
 	if ( NULL_PTR != G_Timer0_Call_Back_Ptr ) /* chaeck if the pointer to function is not NULL_PTR*/
- 51a:	e0 91 63 00 	lds	r30, 0x0063	; 0x800063 <G_Timer0_Call_Back_Ptr>
- 51e:	f0 91 64 00 	lds	r31, 0x0064	; 0x800064 <G_Timer0_Call_Back_Ptr+0x1>
- 522:	30 97       	sbiw	r30, 0x00	; 0
- 524:	09 f0       	breq	.+2      	; 0x528 <__vector_10+0x30>
+ 5d0:	e0 91 63 00 	lds	r30, 0x0063	; 0x800063 <G_Timer0_Call_Back_Ptr>
+ 5d4:	f0 91 64 00 	lds	r31, 0x0064	; 0x800064 <G_Timer0_Call_Back_Ptr+0x1>
+ 5d8:	30 97       	sbiw	r30, 0x00	; 0
+ 5da:	09 f0       	breq	.+2      	; 0x5de <__vector_10+0x30>
 	{
 		G_Timer0_Call_Back_Ptr(); /* call the function in the scheduler using call-back */
- 526:	09 95       	icall
+ 5dc:	09 95       	icall
 	}
 }
- 528:	ff 91       	pop	r31
- 52a:	ef 91       	pop	r30
- 52c:	bf 91       	pop	r27
- 52e:	af 91       	pop	r26
- 530:	9f 91       	pop	r25
- 532:	8f 91       	pop	r24
- 534:	7f 91       	pop	r23
- 536:	6f 91       	pop	r22
- 538:	5f 91       	pop	r21
- 53a:	4f 91       	pop	r20
- 53c:	3f 91       	pop	r19
- 53e:	2f 91       	pop	r18
- 540:	0f 90       	pop	r0
- 542:	0f be       	out	0x3f, r0	; 63
- 544:	0f 90       	pop	r0
- 546:	1f 90       	pop	r1
- 548:	18 95       	reti
+ 5de:	ff 91       	pop	r31
+ 5e0:	ef 91       	pop	r30
+ 5e2:	bf 91       	pop	r27
+ 5e4:	af 91       	pop	r26
+ 5e6:	9f 91       	pop	r25
+ 5e8:	8f 91       	pop	r24
+ 5ea:	7f 91       	pop	r23
+ 5ec:	6f 91       	pop	r22
+ 5ee:	5f 91       	pop	r21
+ 5f0:	4f 91       	pop	r20
+ 5f2:	3f 91       	pop	r19
+ 5f4:	2f 91       	pop	r18
+ 5f6:	0f 90       	pop	r0
+ 5f8:	0f be       	out	0x3f, r0	; 63
+ 5fa:	0f 90       	pop	r0
+ 5fc:	1f 90       	pop	r1
+ 5fe:	18 95       	reti
 
-0000054a <_exit>:
- 54a:	f8 94       	cli
+00000600 <_exit>:
+ 600:	f8 94       	cli
 
-0000054c <__stop_program>:
- 54c:	ff cf       	rjmp	.-2      	; 0x54c <__stop_program>
+00000602 <__stop_program>:
+ 602:	ff cf       	rjmp	.-2      	; 0x602 <__stop_program>

@@ -11,10 +11,7 @@
 
 int main(void)
 {
-    DIO_SetPinDirection(LED1,OUT); /* Set direction of LED 1 */
-	DIO_SetPinDirection(LED2,OUT); /* Set direction of LED 2 */
-	DIO_SetPinDirection(LED3,OUT); /* Set direction of LED 3 */
-	DIO_SetPinDirection(LED0,OUT); /* Set direction of LED 4 */
+	Challenge_Common_Init();
 	/************************************************************************/
 	/* Add Tasks to queue                                                   */
 	/************************************************************************/
