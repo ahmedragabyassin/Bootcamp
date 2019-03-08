@@ -23,7 +23,8 @@
 #define DELAY_HALF_SECOND	1000 /* delay half second */
 #define DELAY_750_MS		1500 /* delay 750 ms */
 #define DELAY_SECOND		2000 /* delay one second */
-
+#define DELAY_2_SECOND		4000 /* delay one second */
+#define DELAY_3_SECOND		6000 /* delay one second */
 
 /************************************************************************/
 /* define new type pointer to function                                  */

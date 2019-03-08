@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00000218  00000000  00000000  0000286c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000517  00000000  00000000  00002a84  2**0
+ 10 .debug_str    00000528  00000000  00000000  00002a84  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000006f7  00000000  00000000  00002f9b  2**0
+ 11 .debug_loc    000006f7  00000000  00000000  00002fac  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000d8  00000000  00000000  00003692  2**0
+ 12 .debug_ranges 000000d8  00000000  00000000  000036a3  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -518,11 +518,11 @@ int main(void)
 	/************************************************************************/
 	/* Add Tasks to queue                                                   */
 	/************************************************************************/
-	if (Scheduler_AddTask(task1,DELAY_HALF_SECOND,NUM_2)) /* add task 1*/
+	if (Scheduler_AddTask(task1,DELAY_SECOND,NUM_2)) /* add task 1*/
  334:	42 e0       	ldi	r20, 0x02	; 2
  336:	50 e0       	ldi	r21, 0x00	; 0
- 338:	68 ee       	ldi	r22, 0xE8	; 232
- 33a:	73 e0       	ldi	r23, 0x03	; 3
+ 338:	60 ed       	ldi	r22, 0xD0	; 208
+ 33a:	77 e0       	ldi	r23, 0x07	; 7
  33c:	85 e9       	ldi	r24, 0x95	; 149
  33e:	92 e0       	ldi	r25, 0x02	; 2
  340:	0e 94 1d 02 	call	0x43a	; 0x43a <Scheduler_AddTask>
@@ -537,11 +537,11 @@ int main(void)
  34a:	8f e0       	ldi	r24, 0x0F	; 15
  34c:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
 	}
-	if (Scheduler_AddTask(task2,DELAY_750_MS,NUM_1)) /* add task 2*/
+	if (Scheduler_AddTask(task2,DELAY_2_SECOND,NUM_1)) /* add task 2*/
  350:	41 e0       	ldi	r20, 0x01	; 1
  352:	50 e0       	ldi	r21, 0x00	; 0
- 354:	6c ed       	ldi	r22, 0xDC	; 220
- 356:	75 e0       	ldi	r23, 0x05	; 5
+ 354:	60 ea       	ldi	r22, 0xA0	; 160
+ 356:	7f e0       	ldi	r23, 0x0F	; 15
  358:	89 e9       	ldi	r24, 0x99	; 153
  35a:	92 e0       	ldi	r25, 0x02	; 2
  35c:	0e 94 1d 02 	call	0x43a	; 0x43a <Scheduler_AddTask>
@@ -557,11 +557,11 @@ int main(void)
  368:	0e 94 3e 00 	call	0x7c	; 0x7c <DIO_WritePin>
 	}
 	
-	if (Scheduler_AddTask(task3,DELAY_SECOND,NUM_0)) /* add task 3*/
+	if (Scheduler_AddTask(task3,DELAY_3_SECOND,NUM_0)) /* add task 3*/
  36c:	40 e0       	ldi	r20, 0x00	; 0
  36e:	50 e0       	ldi	r21, 0x00	; 0
- 370:	60 ed       	ldi	r22, 0xD0	; 208
- 372:	77 e0       	ldi	r23, 0x07	; 7
+ 370:	60 e7       	ldi	r22, 0x70	; 112
+ 372:	77 e1       	ldi	r23, 0x17	; 23
  374:	8d e9       	ldi	r24, 0x9D	; 157
  376:	92 e0       	ldi	r25, 0x02	; 2
  378:	0e 94 1d 02 	call	0x43a	; 0x43a <Scheduler_AddTask>

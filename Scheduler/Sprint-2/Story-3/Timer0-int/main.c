@@ -18,14 +18,14 @@ int main(void)
 	/************************************************************************/
 	/* Add Tasks to queue                                                   */
 	/************************************************************************/
-	if (Scheduler_AddTask(task1,DELAY_HALF_SECOND,NUM_2)) /* add task 1*/
+	if (Scheduler_AddTask(task1,DELAY_SECOND,NUM_2)) /* add task 1*/
 	{
 		
 	}else
 	{
 		DIO_WritePin(LED3,HIGH);/* if task not added then there is an error here and led4 will blink */
 	}
-	if (Scheduler_AddTask(task2,DELAY_750_MS,NUM_1)) /* add task 2*/
+	if (Scheduler_AddTask(task2,DELAY_2_SECOND,NUM_1)) /* add task 2*/
 	{
 		
 	}else
@@ -33,7 +33,7 @@ int main(void)
 		DIO_WritePin(LED3,HIGH);/* if task not added then there is an error here and led4 will blink */
 	}
 	
-	if (Scheduler_AddTask(task3,DELAY_SECOND,NUM_0)) /* add task 3*/
+	if (Scheduler_AddTask(task3,DELAY_3_SECOND,NUM_0)) /* add task 3*/
 	{
 		
 	}else
